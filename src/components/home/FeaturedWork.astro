@@ -1,0 +1,53 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { featuredProjects } from '../../data/projects';
+---
+
+<section class="section featured" id="featured" aria-labelledby="featured-title">
+  <div class="container featured__inner">
+    <SectionHeader
+      id="featured-title"
+      title="Featured work"
+      subtitle="A selection of UX/UI projects focused on clear structure, thoughtful interaction, and usable digital experiences."
+    />
+    <ul class="featured__grid">
+      {
+        featuredProjects.map((project) => (
+          <li>
+            <ProjectCard project={project} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .featured__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .featured__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    width: 100%;
+    max-width: 1206px;
+  }
+
+  @media (max-width: 1024px) {
+    .featured__grid {
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .featured__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

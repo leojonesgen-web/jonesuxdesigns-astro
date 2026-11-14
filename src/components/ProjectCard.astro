@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../data/projects';
+import { projectHref } from '../data/projects';
+
+interface Props {
+  project: Project;
+  /** Featured cards have rounded corners in Figma; library cards are square. */
+  rounded?: boolean;
+  /** Load eagerly when the card is likely to be above the fold. */
+  eager?: boolean;
+}
+
+const { project, rounded = true, eager = false } = Astro.props;
+---
+
+<a class:list={['project-card', { 'project-card--rounded': rounded }]} href={projectHref(project)}>
+  <Image
+    class="project-card__image"
+    src={project.thumbnail}
+    alt=""
+    widths={[400, 800, 1024]}
+    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+    loading={eager ? 'eager' : 'lazy'}
+  />
+  <span class="visually-hidden">{project.title} case study</span>
+</a>
+
+<style>
+  .project-card {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 386 / 280;
+    background: var(--color-tile);
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .project-card--rounded {
+    border-radius: var(--radius-card);
+  }
+
+  .project-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .project-card:hover {
+    box-shadow: var(--shadow-card);
+  }
+
+  .project-card:hover .project-card__image {
+    transform: scale(1.03);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-card,
+    .project-card__image {
+      transition: none;
+    }
+
+    .project-card:hover .project-card__image {
+      transform: none;
+    }
+  }
+</style>

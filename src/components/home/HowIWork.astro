@@ -1,0 +1,61 @@
+---
+import SectionHeader from '../SectionHeader.astro';
+import ProcessStep from '../ProcessStep.astro';
+import { processSteps } from '../../data/content';
+---
+
+<section class="section how" id="how" aria-labelledby="how-title">
+  <div class="container how__inner">
+    <SectionHeader
+      id="how-title"
+      title="How do I work"
+      subtitle="A clear process that keeps your project simple, fast, and stress-free."
+    />
+    <ol class="how__grid">
+      {processSteps.map((step) => <ProcessStep {...step} />)}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+  }
+
+  .how__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 258px));
+    justify-content: center;
+    gap: 60px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1200px) {
+    .how__grid {
+      gap: 32px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .how__grid {
+      grid-template-columns: repeat(2, minmax(0, 300px));
+      gap: 48px 40px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .how__inner {
+      gap: 36px;
+    }
+
+    .how__grid {
+      grid-template-columns: minmax(0, 320px);
+    }
+  }
+</style>

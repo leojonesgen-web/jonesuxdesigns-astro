@@ -1,0 +1,73 @@
+---
+interface Props {
+  href: string;
+  variant?: 'primary' | 'outline';
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const { href, variant = 'primary', size = 'lg', class: className } = Astro.props;
+const isExternal = /^https?:\/\//.test(href);
+---
+
+<a
+  href={href}
+  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
+  {...isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+>
+  <slot />
+</a>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: 1px solid transparent;
+    border-radius: var(--radius-pill);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color 0.2s ease,
+      border-color 0.2s ease,
+      color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .btn--lg {
+    font-size: 22px;
+  }
+
+  .btn--md {
+    font-size: 18px;
+  }
+
+  .btn--primary {
+    background: var(--color-primary);
+    color: var(--color-white);
+  }
+
+  .btn--primary:hover {
+    background: var(--color-royal);
+  }
+
+  .btn--outline {
+    background: var(--color-white);
+    border-color: var(--color-border-soft);
+    color: var(--color-button-text);
+  }
+
+  .btn--outline:hover {
+    border-color: var(--color-primary);
+    box-shadow: var(--shadow-card);
+  }
+
+  @media (max-width: 768px) {
+    .btn--lg {
+      font-size: 18px;
+    }
+  }
+</style>

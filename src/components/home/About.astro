@@ -1,0 +1,184 @@
+---
+import { Image } from 'astro:assets';
+import SectionHeader from '../SectionHeader.astro';
+import ValueCard from '../ValueCard.astro';
+import SkillCard from '../SkillCard.astro';
+import portrait from '../../assets/about/about-portrait.png';
+import { skills, values } from '../../data/content';
+---
+
+<section class="section about" id="about" aria-labelledby="about-title">
+  <div class="container about__inner">
+    <div class="about__values">
+      <SectionHeader
+        id="about-title"
+        title="Get to know me, my values & my skills"
+        subtitle="Four core values guide how I think, design, and create meaningful digital experiences."
+      />
+      <ul class="about__values-grid">
+        {values.map((v) => <ValueCard label={v.label} icon={v.icon} iconSize={v.iconSize} />)}
+      </ul>
+    </div>
+
+    <div class="about__content">
+      <figure class="about__photo">
+        <Image src={portrait} alt="Portrait of the designer" width={335} densities={[1, 2]} />
+      </figure>
+
+      <div class="about__bio">
+        <div class="about__text">
+          <h3 class="about__heading">About me</h3>
+          <p class="about__lead">
+            I'm a UX &amp; AI Interaction Designer turning complex challenges into clear, intuitive,
+            and meaningful digital experiences.
+          </p>
+        </div>
+        <ul class="about__skills">
+          {
+            skills.map((s) => (
+              <SkillCard label={s.label} percent={s.percent} icon={s.icon} iconSize={s.iconSize} />
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 52px;
+  }
+
+  .about__values {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+  }
+
+  .about__values-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 257px);
+    gap: 12px;
+    padding: 8px;
+  }
+
+  .about__content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    width: 100%;
+  }
+
+  /* Gradient card with the portrait clipped to the same rounded shape (Figma mask group) */
+  .about__photo {
+    position: relative;
+    flex-shrink: 0;
+    width: 334px;
+    height: 417px;
+    overflow: hidden;
+    background: var(--gradient-portrait);
+    border-radius: var(--radius-portrait);
+  }
+
+  .about__photo :global(img) {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 15px);
+    object-fit: cover;
+  }
+
+  .about__bio {
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    width: 546px;
+  }
+
+  .about__text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .about__heading {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .about__lead {
+    font-size: 26px;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .about__skills {
+    display: grid;
+    grid-template-columns: repeat(2, 266px);
+    gap: 18px 12px;
+  }
+
+  @media (max-width: 1140px) {
+    .about__values-grid {
+      grid-template-columns: repeat(2, minmax(0, 257px));
+    }
+  }
+
+  @media (max-width: 1024px) {
+    .about__content {
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    .about__bio {
+      width: 100%;
+      max-width: 546px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .about__inner {
+      gap: 40px;
+    }
+
+    .about__heading {
+      font-size: 22px;
+    }
+
+    .about__lead {
+      font-size: 20px;
+    }
+
+    .about__photo {
+      width: min(100%, 300px);
+      height: auto;
+      aspect-ratio: 334 / 417;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .about__values-grid,
+    .about__skills {
+      grid-template-columns: 1fr;
+      width: 100%;
+      max-width: 320px;
+    }
+
+    .about__values-grid {
+      padding: 8px 0;
+    }
+
+    .about__skills {
+      margin-inline: auto;
+    }
+  }
+</style>

@@ -1,0 +1,170 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Button from '../Button.astro';
+import heroBg from '../../assets/hero/hero-bg.png';
+import portrait from '../../assets/hero/hero-portrait.png';
+
+const bg = await getImage({ src: heroBg, format: 'webp' });
+---
+
+<section class="hero" style={`--hero-bg: url(${bg.src})`} aria-labelledby="hero-title">
+  <div class="hero__inner">
+    <div class="hero__content">
+      <h1 class="hero__title" id="hero-title">
+        I design <span class="hero__highlight">digital products</span><br /> people understand.
+      </h1>
+      <p class="hero__lead">
+        UX/UI design for websites, apps and AI products, with a focus on clear experiences and real
+        user needs.
+      </p>
+      <div class="hero__actions">
+        <Button href="#work">View My Work</Button>
+        <Button href="#how" variant="outline">See How I Work</Button>
+      </div>
+    </div>
+
+    <Image
+      class="hero__portrait"
+      src={portrait}
+      alt="Portrait of the designer, Jones UX Designs"
+      width={348}
+      densities={[1, 2]}
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+</section>
+
+<style>
+  .hero {
+    background:
+      var(--hero-bg) left top / 1672px 941px no-repeat,
+      var(--color-white);
+    overflow: hidden;
+  }
+
+  .hero__inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 509px;
+    padding-inline: var(--gutter);
+  }
+
+  .hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 704px;
+  }
+
+  .hero__title {
+    max-width: 580px;
+    color: var(--color-heading-strong);
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 1.06;
+    letter-spacing: -1.5px;
+  }
+
+  .hero__highlight {
+    color: var(--color-primary);
+  }
+
+  .hero__lead {
+    max-width: 644px;
+    padding-bottom: 14px;
+    color: var(--color-text-muted);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .hero__portrait {
+    flex-shrink: 0;
+    align-self: flex-end;
+    width: 348px;
+    height: 509px;
+    object-fit: cover;
+  }
+
+  /* Tablet: keep side-by-side, scale type and portrait down */
+  @media (max-width: 1024px) {
+    .hero {
+      background-position: 65% top, 0 0;
+    }
+
+    .hero__content {
+      flex: 1 1 auto;
+      width: auto;
+      max-width: 600px;
+    }
+
+    .hero__title {
+      font-size: 46px;
+      letter-spacing: -1px;
+    }
+
+    .hero__portrait {
+      width: 280px;
+      height: 410px;
+    }
+
+    .hero__inner {
+      min-height: 410px;
+      gap: 24px;
+    }
+  }
+
+  /* Mobile: stack text above the portrait */
+  @media (max-width: 768px) {
+    /* Fade the decorative background behind the text so the copy stays readable */
+    .hero {
+      background:
+        linear-gradient(180deg, var(--color-page) 0%, rgb(242 247 252 / 0.85) 45%, rgb(242 247 252 / 0) 75%),
+        var(--hero-bg) 75% bottom / cover no-repeat,
+        var(--color-white);
+    }
+
+    .hero__inner {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 32px;
+      min-height: 0;
+      padding-top: 40px;
+    }
+
+    .hero__content {
+      max-width: none;
+    }
+
+    .hero__title {
+      font-size: 38px;
+      letter-spacing: -0.75px;
+    }
+
+    .hero__lead {
+      font-size: 16px;
+      padding-top: 12px;
+      padding-bottom: 24px;
+    }
+
+    .hero__portrait {
+      align-self: center;
+      width: 260px;
+      height: 380px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .hero__title {
+      font-size: 34px;
+    }
+  }
+</style>
