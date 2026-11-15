@@ -7,7 +7,7 @@ import behance from '../assets/social/behance.svg';
 export const site = {
   name: 'Jones UX Designs',
   description:
-    'UX/UI design for websites, apps and AI products, with a focus on clear experiences and real user needs.',
+    'I help AI startups turn complex or fast-built products into clear, coherent experiences users can understand and use.',
   email: 'contact@jonesuxdesigns.com',
 };
 
