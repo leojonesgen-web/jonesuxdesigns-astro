@@ -11,7 +11,7 @@ import refineImg from '../assets/process/test.png';
 export const problems: { title: string; text: string; icon: IconName }[] = [
   {
     title: 'Onboarding & activation',
-    text: 'Users struggle to get started, configure the product or reach their first meaningful result.',
+    text: 'New users don’t quickly see what the product can do for them, get stuck setting it up, or leave before their first meaningful result.',
     icon: 'play',
   },
   {
@@ -26,7 +26,7 @@ export const problems: { title: string; text: string; icon: IconName }[] = [
   },
   {
     title: 'AI behavior & user control',
-    text: 'Users may not understand what the AI is doing, what is happening next, what requires their input, or what they can control.',
+    text: 'Users don’t understand what the AI is doing or why, can’t easily steer or correct it, and don’t know how to recover when it gets something wrong.',
     icon: 'sliders',
   },
 ];
@@ -51,7 +51,7 @@ export const processSteps = [
     text: 'I organize information, map user flows, and create intuitive structures that simplify complex experiences.',
     focus: [
       'Information architecture and priorities',
-      'User flows, including AI steps and handoffs',
+      'User flows, including where AI steps in and where people stay in control',
       'What users need to see, decide or control at each step',
     ],
     image: structureImg,
@@ -63,7 +63,7 @@ export const processSteps = [
     text: 'I turn ideas into clear, functional interfaces with thoughtful layouts, interactions, and visual consistency.',
     focus: [
       'Clean UI with a clear visual hierarchy',
-      'Interaction states such as progress, errors and approvals',
+      'Interaction states such as loading, progress, errors and corrections',
       'Responsive layouts for desktop and mobile',
     ],
     image: designImg,
@@ -75,7 +75,7 @@ export const processSteps = [
     text: 'I review usability, gather feedback, and improve the experience through focused iterations.',
     focus: [
       'Usability review of the designed flows',
-      'Feedback from your team',
+      'Feedback from your team and, where possible, real users',
       'Focused iterations on what matters most',
     ],
     image: refineImg,
@@ -110,7 +110,7 @@ export const skills: { title: string; text: string; icon: IconName }[] = [
   },
   {
     title: 'AI interaction thinking',
-    text: 'Status, progress, user control and handoffs in AI-driven experiences.',
+    text: 'Status, feedback, user control and correction in AI-driven experiences.',
     icon: 'message',
   },
 ];
@@ -120,13 +120,13 @@ export const packages = [
     id: 'ux-review',
     name: 'UX Review & Direction',
     price: 'From €250–€400',
-    text: 'For an existing AI product that needs professional UX/UI review and clearer product direction. The engagement can cover important friction points, information hierarchy, onboarding/workflow issues, usability and product clarity, followed by prioritized recommendations.',
+    text: 'For an existing AI product that needs professional UX/UI review and clearer product direction. The engagement can cover important friction points, information hierarchy, onboarding and key user flows, usability and product clarity, followed by prioritized recommendations.',
   },
   {
     id: 'focused-flow',
     name: 'Focused Product Flow',
     price: 'From €600–€900',
-    text: 'For improving or designing one meaningful product area, such as onboarding/activation, AI setup/configuration, a core AI workflow, user control, approvals/corrections, or another important flow. It can include UX structure, flow thinking, UI design and relevant interaction states.',
+    text: 'For improving or designing one meaningful product area, such as onboarding/activation, AI setup and personalization, a core AI interaction, user control, feedback and correction, error recovery, or another important flow. It can include UX structure, flow thinking, UI design and relevant interaction states.',
   },
   {
     id: 'sprint',
@@ -142,11 +142,11 @@ export const consultation = {
   text: 'A short initial conversation/review to understand your product, identify the main UX problem and determine whether working together makes sense. If you go ahead, scope and price are discussed based on your product.',
 };
 
-/** DRAFT: awaiting Leonard's approval. */
+/** Approved FAQ copy. */
 export const faqs = [
   {
     q: 'What kind of products do you work on?',
-    a: 'Early-stage B2B AI products, especially ones that are powerful but confusing to use. Typical areas are onboarding and activation, complex AI workflows, information architecture, AI setup and configuration, system status and progress, user control, approvals and corrections, and AI-to-human handoffs.',
+    a: 'Early-stage consumer (B2C) AI products, especially ones that are powerful but confusing for everyday users. Typical areas are onboarding and activation, complex AI flows, information and product clarity, helping users understand what the AI is doing, and user control, feedback, correction and recovery.',
   },
   {
     q: 'Do you work on existing products or new ones?',
@@ -175,17 +175,17 @@ export const assistantTopics = [
   {
     id: 'what',
     question: 'What does Leonard do?',
-    keywords: ['who is', 'who are you', 'what does leonard do', 'what do you do', 'services', 'service', 'offer', 'designer', 'leonard'],
+    keywords: ['who is', 'who are you', 'what does leonard do', 'what do you do', 'services', 'service', 'offer', 'designer', 'leonard', 'consumer', 'b2c'],
     answer:
-      'Leonard is a Product Designer helping early-stage B2B AI startups turn powerful but confusing products into clear, usable experiences.',
+      'Leonard is a Product Designer helping early-stage consumer (B2C) AI startups turn powerful but confusing products into clear, intuitive experiences.',
     link: { label: 'Where he can help', href: '#problems' },
   },
   {
     id: 'problems',
     question: 'What problems can he help with?',
-    keywords: ['problem', 'problems', 'onboarding', 'workflow', 'workflows', 'activation', 'user control', 'clarity', 'confusing', 'help with'],
+    keywords: ['problem', 'problems', 'onboarding', 'workflow', 'workflows', 'activation', 'user control', 'clarity', 'confusing', 'help with', 'correction', 'recovery', 'trust'],
     answer:
-      'Onboarding and activation, complex AI workflows, information and product clarity, and helping users understand what the AI is doing and what they can control.',
+      'Onboarding and activation, complex AI workflows, information and product clarity, and helping users understand what the AI is doing, stay in control, and correct or recover when it gets things wrong.',
     link: { label: 'See the problems', href: '#problems' },
   },
   {
