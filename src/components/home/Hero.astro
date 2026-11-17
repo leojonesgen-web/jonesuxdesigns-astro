@@ -1,170 +1,167 @@
 ---
-import { Image, getImage } from 'astro:assets';
+/**
+ * Hero: typography-led split. The visual side shows the three selected projects
+ * (real work) rather than a portrait or invented interface.
+ */
+import { Image } from 'astro:assets';
 import Button from '../Button.astro';
-import heroBg from '../../assets/hero/hero-bg.png';
-import portrait from '../../assets/hero/hero-portrait.png';
+import Icon from '../Icon.astro';
+import { selectedProjects } from '../../data/projects';
+import { contactHref } from '../../data/site';
 
-const bg = await getImage({ src: heroBg, format: 'webp' });
+const [first, second, third] = selectedProjects;
 ---
 
-<section class="hero" style={`--hero-bg: url(${bg.src})`} aria-labelledby="hero-title">
-  <div class="hero__inner">
-    <div class="hero__content">
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow">Product / UX / UI Designer</p>
       <h1 class="hero__title" id="hero-title">
-        Product Designer for <span class="hero__highlight">Early-Stage AI Products</span>
+        Product Designer for <span class="hero__accent">Early-Stage AI Products</span>
       </h1>
       <p class="hero__lead">
         I help AI startups turn complex or fast-built products into clear, coherent experiences
         users can understand and use.
       </p>
       <div class="hero__actions">
-        <Button href="#work">View My Work</Button>
-        <Button href="#how" variant="outline">See How I Work</Button>
+        <Button href="#work" size="lg">View selected work <Icon name="arrow-right" size={18} /></Button>
+        <Button href={contactHref} variant="secondary" size="lg">Start a conversation</Button>
       </div>
     </div>
 
-    <Image
-      class="hero__portrait"
-      src={portrait}
-      alt="Portrait of the designer, Jones UX Designs"
-      width={348}
-      densities={[1, 2]}
-      loading="eager"
-      fetchpriority="high"
-    />
+    <figure class="hero__work">
+      <div class="hero__shot hero__shot--a" aria-hidden="true">
+        <Image src={first.image} alt="" widths={[480, 720]} sizes="(max-width: 900px) 60vw, 380px" loading="eager" />
+      </div>
+      <div class="hero__shot hero__shot--b" aria-hidden="true">
+        <Image src={third.image} alt="" widths={[400, 640]} sizes="(max-width: 900px) 50vw, 300px" loading="eager" />
+      </div>
+      <div class="hero__shot hero__shot--c" aria-hidden="true">
+        <Image src={second.image} alt="" widths={[400, 640]} sizes="(max-width: 900px) 50vw, 320px" loading="eager" />
+      </div>
+      <figcaption class="hero__caption">
+        Selected work: {first.title}, {third.title}, {second.title}
+      </figcaption>
+    </figure>
   </div>
 </section>
 
 <style>
   .hero {
-    background:
-      var(--hero-bg) left top / 1672px 941px no-repeat,
-      var(--color-white);
+    padding-block: var(--space-9) var(--space-10);
     overflow: hidden;
   }
 
   .hero__inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
     align-items: center;
-    justify-content: center;
-    min-height: 509px;
-    padding-inline: var(--gutter);
+    gap: var(--space-7);
   }
 
-  .hero__content {
+  .hero__copy {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    width: 704px;
+    gap: var(--space-4);
   }
 
   .hero__title {
-    max-width: 580px;
-    color: var(--color-heading-strong);
-    font-size: 58px;
-    font-weight: 700;
-    line-height: 1.06;
-    letter-spacing: -1.5px;
+    max-width: 14ch;
+    font-size: var(--fs-display);
+    font-weight: 750;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
   }
 
-  .hero__highlight {
+  .hero__accent {
     color: var(--color-primary);
   }
 
   .hero__lead {
-    max-width: 644px;
-    padding-bottom: 14px;
+    max-width: 34em;
     color: var(--color-text-muted);
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 1.6;
+    font-size: var(--fs-body-lg);
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 16px;
+    gap: var(--space-2);
+    margin-top: var(--space-1);
   }
 
-  .hero__portrait {
-    flex-shrink: 0;
-    align-self: flex-end;
-    width: 348px;
-    height: 509px;
-    object-fit: cover;
+  /* Overlapping stack of real project images */
+  .hero__work {
+    position: relative;
+    aspect-ratio: 1 / 0.86;
   }
 
-  /* Tablet: keep side-by-side, scale type and portrait down */
-  @media (max-width: 1024px) {
+  .hero__shot {
+    position: absolute;
+    display: block;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-raised);
+  }
+
+  .hero__shot :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .hero__shot--a {
+    top: 0;
+    right: 0;
+    width: 76%;
+    z-index: 1;
+  }
+
+  .hero__shot--b {
+    bottom: 6%;
+    left: 0;
+    width: 58%;
+    z-index: 2;
+  }
+
+  .hero__shot--c {
+    right: 4%;
+    bottom: 0;
+    width: 46%;
+    z-index: 3;
+  }
+
+  .hero__caption {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  @media (max-width: 900px) {
     .hero {
-      background-position: 65% top, 0 0;
-    }
-
-    .hero__content {
-      flex: 1 1 auto;
-      width: auto;
-      max-width: 600px;
-    }
-
-    .hero__title {
-      font-size: 46px;
-      letter-spacing: -1px;
-    }
-
-    .hero__portrait {
-      width: 280px;
-      height: 410px;
+      padding-block: var(--space-7) var(--space-9);
     }
 
     .hero__inner {
-      min-height: 410px;
-      gap: 24px;
-    }
-  }
-
-  /* Mobile: stack text above the portrait */
-  @media (max-width: 768px) {
-    /* Fade the decorative background behind the text so the copy stays readable */
-    .hero {
-      background:
-        linear-gradient(180deg, var(--color-page) 0%, rgb(242 247 252 / 0.85) 45%, rgb(242 247 252 / 0) 75%),
-        var(--hero-bg) 75% bottom / cover no-repeat,
-        var(--color-white);
-    }
-
-    .hero__inner {
-      flex-direction: column;
-      align-items: stretch;
-      gap: 32px;
-      min-height: 0;
-      padding-top: 40px;
-    }
-
-    .hero__content {
-      max-width: none;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
     }
 
     .hero__title {
-      font-size: 38px;
-      letter-spacing: -0.75px;
+      max-width: 16ch;
     }
 
-    .hero__lead {
-      font-size: 16px;
-      padding-top: 12px;
-      padding-bottom: 24px;
-    }
-
-    .hero__portrait {
-      align-self: center;
-      width: 260px;
-      height: 380px;
+    .hero__work {
+      width: min(100%, 560px);
     }
   }
 
-  @media (max-width: 400px) {
-    .hero__title {
-      font-size: 34px;
+  @media (max-width: 480px) {
+    .hero__actions :global(.btn) {
+      width: 100%;
     }
   }
 </style>

@@ -1,6 +1,7 @@
-# Jones UX Designs — portfolio
+# Jones UX Designs: portfolio
 
-Astro static site. Visual source of truth: Figma file "Jonesuxdesigns", Homepage frame (node 608:1933).
+Astro static site for Leonard's Product/UX/UI design portfolio, aimed at founders of
+early-stage B2B AI startups. Built from the *Claude Code Portfolio Redesign & Implementation Brief*.
 
 ## Commands
 
@@ -15,29 +16,26 @@ Astro static site. Visual source of truth: Figma file "Jonesuxdesigns", Homepage
 
 ```
 src/
-  assets/        Images and icons exported from Figma (optimised at build time)
+  styles/global.css   Design tokens: colour, type scale, spacing (8–120), radius, elevation, motion
   data/
-    projects.ts  All projects: slug, title, summary, thumbnail, featured/library flags
-    site.ts      Navigation, footer links, socials, contact email
-    content.ts   Values, skills and process steps shown on the Homepage
-  styles/global.css   Design tokens (colours, type, spacing, radii, shadow) and reset
-  layouts/BaseLayout.astro   <head>, fonts, Header, Footer
-  components/    Reusable UI: Header, Footer, Button, SectionHeader, ProjectCard,
-                 ValueCard, SkillCard, ProcessStep, IconTile
-  components/home/   Homepage sections: Hero, FeaturedWork, About, HowIWork, ProjectLibrary
-  pages/
-    index.astro              Homepage
-    projects/[slug].astro    One case-study page per project (placeholder for now)
-    404.astro
+    site.ts           Name, role, approved contact methods, navigation
+    projects.ts       Selected + broader projects (canonical names, approved copy only)
+    content.ts        Problems, process steps, skills, packages, consultation, FAQ, assistant answers
+  layouts/BaseLayout.astro
+  components/         Header, Footer, Wordmark (logo placeholder), Button, Icon, SectionIntro,
+                      ProjectCard, ContactOptions, ContactDialog, Assistant
+  components/home/    Hero, Problems, Work, Process, LightCta, About, Packages, Faq, FinalContact
+  pages/              index, projects/[slug], 404
 ```
 
-## Adding a case study
+## Content rules
 
-1. Add the project to `src/data/projects.ts` (put its thumbnail in `src/assets/projects/`).
-   It gets a page at `/projects/<slug>/` automatically, and appears on the Homepage
-   when `featured` or `library` is set.
-2. Build out the case-study content in `src/pages/projects/[slug].astro`. When projects
-   need long-form content, move them to an Astro content collection (Markdown/MDX per project).
+Only approved information goes in `src/data/`. Do not add metrics, testimonials, outcomes,
+timelines, policies, availability or contact details that have not been supplied.
 
-Responsive breakpoints: 1024px (tablet) and 768px (mobile), plus a few smaller tweaks
-at 860px (nav collapses), 640px, 600px and 560px.
+## Placeholders to replace
+
+- **Logo:** `src/components/Wordmark.astro` is a temporary text wordmark.
+- **FAQ:** the copy in `src/data/content.ts` is a draft pending approval.
+- **Project pages:** `/projects/<slug>/` show approved summaries only until case studies are written.
+- **Assistant:** a labelled prototype with prepared answers (no AI backend).

@@ -2,88 +2,104 @@ import type { ImageMetadata } from 'astro';
 import stepwise from '../assets/projects/stepwise.png';
 import tripwise from '../assets/projects/tripwise.png';
 import pawcare from '../assets/projects/pawcare.png';
-import drivePoint from '../assets/projects/drive-point.png';
-import stellanTime from '../assets/projects/stellan-time.png';
-import nestory from '../assets/projects/nestory.png';
-import primeRagent from '../assets/projects/prime-ragent.png';
 import filelens from '../assets/projects/filelens.png';
+import drivePoint from '../assets/projects/drive-point.png';
+import primeRegent from '../assets/projects/prime-regent.png';
+import stellarTime from '../assets/projects/stellar-time.png';
+import nestStory from '../assets/projects/nest-story.png';
 
 export interface Project {
-  /** URL segment: /projects/<slug>/ (matches the paths on the current live site) */
+  /** URL segment: /projects/<slug>/ */
   slug: string;
+  /** Canonical project name (may differ from text baked into older images). */
   title: string;
-  /** Short line for cards, meta descriptions and the case-study intro. */
+  category: string;
+  /** Only approved information. Kept short where no detail has been provided. */
   summary: string;
-  thumbnail: ImageMetadata;
-  /** Shown in the "Featured work" section on the Homepage. */
-  featured?: boolean;
-  /** Shown in the "See what I can do" library on the Homepage. */
-  library?: boolean;
+  image: ImageMetadata;
+  /** Describes what the image shows, for screen readers. */
+  imageAlt: string;
+  group: 'selected' | 'broader';
 }
 
-/**
- * Single source of truth for portfolio projects.
- * Order here is the display order on the Homepage.
- */
 export const projects: Project[] = [
   {
+    slug: 'tripwise',
+    title: 'TripWise',
+    category: 'UX Case Study',
+    summary:
+      'A cross-service trip-planning platform designed to create a clearer, more coherent travel-planning experience across the planning journey.',
+    image: tripwise,
+    imageAlt: 'TripWise trip-planning interface shown on a laptop screen',
+    group: 'selected',
+  },
+  {
     slug: 'stepwise',
-    title: 'E-Commerce UI Design',
-    summary: 'E-commerce UI design case study.',
-    thumbnail: stepwise,
-    featured: true,
+    title: 'StepWise',
+    category: 'UI/UX Design',
+    summary:
+      'A German-language shoe e-commerce experience designed for a German-speaking audience.',
+    image: stepwise,
+    imageAlt: 'StepWise shoe e-commerce website shown on a laptop screen',
+    group: 'selected',
   },
   {
-    slug: 'tripwise-casestudy',
-    title: 'Tripwise',
-    summary: 'Travel planning app case study.',
-    thumbnail: tripwise,
-    featured: true,
-  },
-  {
-    slug: 'pawcare-redesign',
+    slug: 'pawcare',
     title: 'PawCare',
-    summary: 'Pet care app redesign case study.',
-    thumbnail: pawcare,
-    featured: true,
-  },
-  {
-    slug: 'drive-point',
-    title: 'Drive Point',
-    summary: 'Find your car. Book your appointment.',
-    thumbnail: drivePoint,
-    library: true,
-  },
-  {
-    slug: 'stellan-time',
-    title: 'Stellan Time',
-    summary: 'Time thoughtfully presented.',
-    thumbnail: stellanTime,
-    library: true,
-  },
-  {
-    slug: 'nestory',
-    title: 'Nestory',
-    summary: 'Interior design, made more accessible.',
-    thumbnail: nestory,
-    library: true,
-  },
-  {
-    slug: 'prime-ragent',
-    title: 'Prime Ragent',
-    summary: 'Fragrance with a different presence.',
-    thumbnail: primeRagent,
-    library: true,
+    category: 'UX Case Study',
+    summary:
+      'A veterinary booking experience focused on making finding and scheduling veterinary appointments clearer and easier.',
+    image: pawcare,
+    imageAlt: 'PawCare veterinary booking app screens on three phones',
+    group: 'selected',
   },
   {
     slug: 'filelens',
     title: 'FileLens',
-    summary: 'See your files clearly.',
-    thumbnail: filelens,
-    library: true,
+    category: 'AI-powered file management',
+    summary: 'AI-powered file and storage-management work.',
+    image: filelens,
+    imageAlt: 'FileLens website shown on a laptop screen',
+    group: 'broader',
+  },
+  {
+    slug: 'drive-point',
+    title: 'Drive Point',
+    category: 'App Design',
+    summary: 'App design.',
+    image: drivePoint,
+    imageAlt: 'Drive Point app screen on a phone',
+    group: 'broader',
+  },
+  {
+    slug: 'prime-regent',
+    title: 'Prime Regent',
+    category: 'Landing Page Design',
+    summary: 'Landing page design.',
+    image: primeRegent,
+    imageAlt: 'Prime Regent landing page shown on a laptop screen',
+    group: 'broader',
+  },
+  {
+    slug: 'stellar-time',
+    title: 'Stellar Time',
+    category: 'Landing Page Design',
+    summary: 'Landing page design.',
+    image: stellarTime,
+    imageAlt: 'Stellar Time landing page shown on a laptop screen',
+    group: 'broader',
+  },
+  {
+    slug: 'nest-story',
+    title: 'Nest Story',
+    category: 'Landing Page Design',
+    summary: 'Landing page design.',
+    image: nestStory,
+    imageAlt: 'Nest Story landing page shown on a laptop screen',
+    group: 'broader',
   },
 ];
 
-export const featuredProjects = projects.filter((p) => p.featured);
-export const libraryProjects = projects.filter((p) => p.library);
+export const selectedProjects = projects.filter((p) => p.group === 'selected');
+export const broaderProjects = projects.filter((p) => p.group === 'broader');
 export const projectHref = (p: Project) => `/projects/${p.slug}/`;

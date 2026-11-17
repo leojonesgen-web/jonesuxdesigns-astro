@@ -1,0 +1,435 @@
+---
+/**
+ * Portfolio assistant: PROTOTYPE.
+ * Not generative AI. It shows prepared answers drawn only from approved portfolio content,
+ * matches typed questions to those topics by keyword, and hands off to Leonard when it has
+ * no prepared answer. The UI states this plainly.
+ */
+import Icon from './Icon.astro';
+import { assistantTopics } from '../data/content';
+import { contactHref } from '../data/site';
+---
+
+<div class="assistant" data-assistant>
+  <button
+    class="assistant__trigger"
+    type="button"
+    aria-expanded="false"
+    aria-controls="assistant-panel"
+    data-assistant-toggle
+  >
+    <Icon name="message" size={20} />
+    <span>Ask about my work</span>
+  </button>
+
+  <section class="assistant__panel" id="assistant-panel" aria-labelledby="assistant-title" hidden>
+    <header class="assistant__head">
+      <div>
+        <h2 id="assistant-title">Portfolio assistant</h2>
+        <p class="assistant__badge">Prototype · not live AI</p>
+      </div>
+      <button class="assistant__close" type="button" aria-label="Close assistant" data-assistant-toggle>
+        <Icon name="close" size={20} />
+      </button>
+    </header>
+
+    <div class="assistant__body" data-assistant-body>
+    <div class="assistant__log" aria-live="polite" data-assistant-log>
+      <div class="assistant__msg assistant__msg--bot">
+        <p>
+          Hi! I can answer common questions about Leonard’s work, services and process, using
+          prepared answers only. For anything else, I’ll point you to Leonard directly.
+        </p>
+      </div>
+    </div>
+
+    <div class="assistant__suggestions" data-assistant-suggestions>
+      <p class="assistant__suggestions-label">Suggested questions</p>
+      <ul>
+        {
+          assistantTopics.map((t) => (
+            <li>
+              <button type="button" class="assistant__chip" data-topic={t.id}>
+                {t.question}
+              </button>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    </div>
+
+    <form class="assistant__form" data-assistant-form>
+      <label class="visually-hidden" for="assistant-input">Ask a question</label>
+      <input
+        id="assistant-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Ask about services, work or process"
+        maxlength="200"
+      />
+      <button type="submit" aria-label="Send question">
+        <Icon name="send" size={18} />
+      </button>
+    </form>
+
+    <a class="assistant__handoff" href={contactHref} data-assistant-handoff>
+      Talk to Leonard directly <Icon name="arrow-right" size={16} />
+    </a>
+  </section>
+</div>
+
+<script>
+  import { assistantTopics } from '../data/content';
+
+  const root = document.querySelector<HTMLElement>('[data-assistant]');
+
+  if (root) {
+    const panel = root.querySelector<HTMLElement>('#assistant-panel')!;
+    const trigger = root.querySelector<HTMLButtonElement>('.assistant__trigger')!;
+    const log = root.querySelector<HTMLElement>('[data-assistant-log]')!;
+    const body = root.querySelector<HTMLElement>('[data-assistant-body]')!;
+    const form = root.querySelector<HTMLFormElement>('[data-assistant-form]')!;
+    const input = form.querySelector<HTMLInputElement>('input')!;
+
+    const setOpen = (open: boolean) => {
+      panel.hidden = !open;
+      trigger.setAttribute('aria-expanded', String(open));
+      root.classList.toggle('is-open', open);
+      if (open) input.focus();
+      else trigger.focus();
+    };
+
+    root.querySelectorAll('[data-assistant-toggle]').forEach((btn) =>
+      btn.addEventListener('click', () => setOpen(panel.hidden)),
+    );
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.hidden) setOpen(false);
+    });
+
+    const addMessage = (from: 'user' | 'bot', text: string, link?: { label: string; href: string }) => {
+      const msg = document.createElement('div');
+      msg.className = `assistant__msg assistant__msg--${from}`;
+      const p = document.createElement('p');
+      p.textContent = text;
+      msg.append(p);
+      if (link) {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.className = 'assistant__msg-link';
+        a.textContent = `${link.label} →`;
+        msg.append(a);
+      }
+      log.append(msg);
+      body.scrollTop = body.scrollHeight;
+    };
+
+    const answer = (topicId: string, asked: string) => {
+      const topic = assistantTopics.find((t) => t.id === topicId);
+      if (!topic) return;
+      addMessage('user', asked);
+      addMessage('bot', topic.answer, topic.link);
+    };
+
+    root.querySelectorAll<HTMLButtonElement>('[data-topic]').forEach((chip) =>
+      chip.addEventListener('click', () => answer(chip.dataset.topic!, chip.textContent!.trim())),
+    );
+
+    // Phrase match against prepared topics. A tie or no match means no clear answer:
+    // say so and hand off rather than guess.
+    const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = (text: string) => {
+      const q = ` ${text.toLowerCase().replace(/[^a-z0-9€\s]/g, ' ').replace(/\s+/g, ' ')} `;
+      const scored = assistantTopics
+        .map((t) => ({
+          id: t.id,
+          score: t.keywords.filter((k) => new RegExp(`(^|\\s)${escape(k)}(\\s|$)`).test(q) || (k === '€' && q.includes('€'))).length,
+        }))
+        .filter((t) => t.score > 0)
+        .sort((x, y) => y.score - x.score);
+      if (!scored.length || (scored[1] && scored[1].score === scored[0].score)) return undefined;
+      return scored[0].id;
+    };
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+      const id = match(text);
+      if (id) {
+        answer(id, text);
+      } else {
+        addMessage('user', text);
+        addMessage(
+          'bot',
+          'I don’t have a prepared answer for that, and I won’t guess. Leonard can answer it directly.',
+          { label: 'Contact Leonard', href: '#contact' },
+        );
+      }
+    });
+
+    // Following a link inside the panel closes it so the destination is visible.
+    panel.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+  }
+</script>
+
+<style>
+  .assistant {
+    position: fixed;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: 40;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-2);
+  }
+
+  .assistant__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 48px;
+    padding: 10px 18px;
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    box-shadow: var(--shadow-card);
+    color: var(--color-ink);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color var(--duration-base) var(--ease), background-color var(--duration-base) var(--ease);
+  }
+
+  .assistant__trigger:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-tint);
+  }
+
+  .assistant.is-open .assistant__trigger {
+    display: none;
+  }
+
+  .assistant__panel {
+    display: flex;
+    flex-direction: column;
+    width: min(380px, calc(100vw - 32px));
+    max-height: min(600px, calc(100dvh - 32px));
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: var(--shadow-raised);
+  }
+
+  .assistant__panel[hidden] {
+    display: none;
+  }
+
+  .assistant__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-3) var(--space-2) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .assistant__head h2 {
+    font-size: 1.0625rem;
+    letter-spacing: 0;
+  }
+
+  .assistant__badge {
+    display: inline-block;
+    margin-top: 4px;
+    padding: 2px 10px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .assistant__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 0;
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+
+  .assistant__close:hover {
+    background: var(--color-surface-muted);
+    color: var(--color-ink);
+  }
+
+  /* Conversation + suggestions share one scroll area so neither gets squeezed. */
+  .assistant__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .assistant__log {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .assistant :global(.assistant__msg) {
+    max-width: 90%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: var(--fs-label);
+    line-height: 1.5;
+  }
+
+  .assistant :global(.assistant__msg--bot) {
+    align-self: flex-start;
+    background: var(--color-surface-muted);
+    color: var(--color-ink);
+  }
+
+  .assistant :global(.assistant__msg--user) {
+    align-self: flex-end;
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .assistant :global(.assistant__msg-link) {
+    display: inline-block;
+    margin-top: 6px;
+    color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .assistant__suggestions {
+    padding: 0 var(--space-4) var(--space-3);
+  }
+
+  .assistant__suggestions-label {
+    margin-bottom: 6px;
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+  }
+
+  .assistant__suggestions ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .assistant__chip {
+    padding: 6px 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    font-size: 0.8125rem;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color var(--duration-fast) var(--ease), background-color var(--duration-fast) var(--ease);
+  }
+
+  .assistant__chip:hover {
+    background: var(--color-primary-tint);
+    border-color: var(--color-primary);
+  }
+
+  .assistant__chip:active {
+    background: var(--color-primary-tint-strong);
+  }
+
+  .assistant__form {
+    display: flex;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .assistant__form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    padding: 0 14px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    font: inherit;
+    font-size: var(--fs-label);
+  }
+
+  .assistant__form input:focus-visible {
+    border-color: var(--color-primary);
+  }
+
+  .assistant__form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: var(--color-primary);
+    border: 0;
+    border-radius: var(--radius-pill);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .assistant__form button:hover {
+    background: var(--color-primary-strong);
+  }
+
+  .assistant__handoff {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 44px;
+    margin: 0 var(--space-3) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--color-primary-tint);
+    color: var(--color-primary-strong);
+    font-size: var(--fs-label);
+    font-weight: 600;
+  }
+
+  .assistant__handoff:hover {
+    background: var(--color-primary-tint-strong);
+  }
+
+  @media (max-width: 640px) {
+    .assistant {
+      right: var(--space-3);
+      bottom: var(--space-3);
+    }
+
+    .assistant__trigger span {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+
+    .assistant__trigger {
+      width: 52px;
+      height: 52px;
+      padding: 0;
+      justify-content: center;
+    }
+  }
+</style>

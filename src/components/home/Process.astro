@@ -1,0 +1,278 @@
+---
+/**
+ * How I Work: interactive process (Understand → Structure → Design → Refine).
+ * One markup for both layouts: each step is a button followed by its panel.
+ *  - Desktop: buttons sit in a horizontal row of step controls; the active panel shows below.
+ *  - Mobile: the same buttons/panels stack as a vertical accordion.
+ * Exactly one step is open at a time. Without JS, all panels are visible.
+ */
+import { Image } from 'astro:assets';
+import SectionIntro from '../SectionIntro.astro';
+import Icon from '../Icon.astro';
+import { processSteps } from '../../data/content';
+---
+
+<section class="section process" id="process" aria-labelledby="process-title">
+  <div class="container">
+    <SectionIntro eyebrow="How I work" title="A structured process, from problem to interface" id="process-title">
+      <p>Each step builds on the one before, so design decisions stay grounded in the product and its users.</p>
+    </SectionIntro>
+
+    <div class="process__steps" data-process>
+      {
+        processSteps.map((step, i) => (
+          <>
+            <button
+              class="process__tab"
+              type="button"
+              id={`step-${step.id}-tab`}
+              aria-expanded={i === 0 ? 'true' : 'false'}
+              aria-controls={`step-${step.id}`}
+              style={`--col: ${i + 1}`}
+            >
+              <span class="process__tab-index">{String(i + 1).padStart(2, '0')}</span>
+              <span class="process__tab-label">{step.label}</span>
+              <Icon name="chevron-down" size={20} class="process__tab-chevron" />
+            </button>
+            <div
+              class="process__panel"
+              id={`step-${step.id}`}
+              role="region"
+              aria-labelledby={`step-${step.id}-tab`}
+              data-open={i === 0 ? 'true' : 'false'}
+            >
+              <div class="process__panel-copy">
+                <h3 class="process__panel-title">{step.title}</h3>
+                <p class="process__panel-text">{step.text}</p>
+                <h4 class="process__focus-label">Focus</h4>
+                <ul class="process__focus">
+                  {step.focus.map((f) => (
+                    <li>
+                      <Icon name="check" size={18} />
+                      <span>{f}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div class="process__panel-media">
+                <Image src={step.image} alt="" width={262} height={196} loading="eager" />
+              </div>
+            </div>
+          </>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-process]').forEach((root) => {
+    root.classList.add('is-enhanced');
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('.process__tab')];
+
+    const select = (tab: HTMLButtonElement) => {
+      tabs.forEach((t) => {
+        const open = t === tab;
+        t.setAttribute('aria-expanded', String(open));
+        document.getElementById(t.getAttribute('aria-controls')!)!.dataset.open = String(open);
+      });
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => select(tab));
+      // Arrow keys move between steps (helpful in the horizontal desktop layout).
+      tab.addEventListener('keydown', (e) => {
+        const dir = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus();
+        select(next);
+      });
+    });
+  });
+</script>
+
+<style>
+  /* Follows Work on the same background, and is followed by the light CTA. */
+  .process {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-7);
+  }
+
+  .process__steps {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-top: var(--space-6);
+  }
+
+  /* Step controls (desktop: one row) */
+  .process__tab {
+    grid-row: 1;
+    grid-column: var(--col);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 64px;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    color: var(--color-text);
+    text-align: left;
+    cursor: pointer;
+    transition:
+      background-color var(--duration-base) var(--ease),
+      border-color var(--duration-base) var(--ease),
+      color var(--duration-base) var(--ease);
+  }
+
+  .process__tab:hover {
+    background: var(--color-primary-tint);
+    border-color: var(--color-primary-tint-strong);
+  }
+
+  .process__tab[aria-expanded='true'] {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: #fff;
+  }
+
+  .process__tab-index {
+    color: var(--color-steel);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .process__tab[aria-expanded='true'] .process__tab-index {
+    color: var(--color-on-deep-muted);
+  }
+
+  .process__tab-label {
+    flex: 1;
+    font-size: 1.0625rem;
+    font-weight: 600;
+  }
+
+  .process__tab :global(.process__tab-chevron) {
+    display: none;
+  }
+
+  /* Panels */
+  .process__panel {
+    grid-row: 2;
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: var(--space-6);
+    align-items: center;
+    margin-top: var(--space-2);
+    padding: var(--space-6);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .is-enhanced .process__panel[data-open='false'] {
+    display: none;
+  }
+
+  .process__panel-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .process__panel-title {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .process__panel-text {
+    max-width: 52ch;
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-lg);
+  }
+
+  .process__focus-label {
+    margin-top: var(--space-3);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .process__focus {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .process__focus li {
+    display: flex;
+    gap: 10px;
+  }
+
+  .process__focus :global(svg) {
+    flex-shrink: 0;
+    margin-top: 3px;
+    color: var(--color-primary);
+  }
+
+  .process__panel-media {
+    justify-self: center;
+    width: 100%;
+    max-width: 340px;
+    overflow: hidden;
+    background: #fff;
+    border-radius: var(--radius-card);
+  }
+
+  .process__panel-media :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Without JS every panel is visible; stack them instead of overlapping in row 2. */
+  .process__steps:not(.is-enhanced) .process__panel {
+    grid-row: auto;
+  }
+
+  /* Mobile: vertical accordion */
+  @media (max-width: 860px) {
+    .process__steps {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .process__tab {
+      width: 100%;
+    }
+
+    .process__tab :global(.process__tab-chevron) {
+      display: block;
+      transition: transform var(--duration-base) var(--ease);
+    }
+
+    .process__tab[aria-expanded='true'] :global(.process__tab-chevron) {
+      transform: rotate(180deg);
+    }
+
+    .process__panel {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+      margin-top: 0;
+      padding: var(--space-4);
+    }
+
+    .process__panel-media {
+      order: -1;
+      max-width: 280px;
+    }
+  }
+</style>

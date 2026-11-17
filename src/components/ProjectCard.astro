@@ -1,70 +1,153 @@
 ---
+/**
+ * Fully clickable project card. Category, title and text are always visible below the image
+ * (never hover-only). On hover/focus the image gets a restrained dark overlay and the title
+ * strengthens.
+ */
 import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
 import type { Project } from '../data/projects';
 import { projectHref } from '../data/projects';
 
 interface Props {
   project: Project;
-  /** Featured cards have rounded corners in Figma; library cards are square. */
-  rounded?: boolean;
-  /** Load eagerly when the card is likely to be above the fold. */
-  eager?: boolean;
+  size?: 'large' | 'compact';
 }
 
-const { project, rounded = true, eager = false } = Astro.props;
+const { project, size = 'large' } = Astro.props;
+const Heading = size === 'large' ? 'h3' : 'h4';
 ---
 
-<a class:list={['project-card', { 'project-card--rounded': rounded }]} href={projectHref(project)}>
-  <Image
-    class="project-card__image"
-    src={project.thumbnail}
-    alt=""
-    widths={[400, 800, 1024]}
-    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
-    loading={eager ? 'eager' : 'lazy'}
-  />
-  <span class="visually-hidden">{project.title} case study</span>
-</a>
+<article class:list={['project-card', `project-card--${size}`]}>
+  <a class="project-card__link" href={projectHref(project)}>
+    <div class="project-card__media">
+      <Image
+        src={project.image}
+        alt={project.imageAlt}
+        widths={size === 'large' ? [420, 800, 1024] : [360, 720]}
+        sizes={size === 'large' ? '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px' : '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px'}
+      />
+      <span class="project-card__overlay" aria-hidden="true">
+        <span class="project-card__cta"><Icon name="arrow-up-right" size={18} /></span>
+      </span>
+    </div>
+    <div class="project-card__body">
+      <p class="project-card__category">{project.category}</p>
+      <Heading class="project-card__title">{project.title}</Heading>
+      {size === 'large' && <p class="project-card__text">{project.summary}</p>}
+    </div>
+  </a>
+</article>
 
 <style>
   .project-card {
-    display: block;
+    height: 100%;
+  }
+
+  .project-card__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    transition: border-color var(--duration-base) var(--ease);
+  }
+
+  .project-card__link:hover {
+    border-color: var(--color-border-strong);
+  }
+
+  .project-card__media {
     position: relative;
     overflow: hidden;
-    aspect-ratio: 386 / 280;
-    background: var(--color-tile);
-    transition:
-      transform 0.25s ease,
-      box-shadow 0.25s ease;
+    aspect-ratio: 1024 / 728;
+    background: var(--color-surface-muted);
   }
 
-  .project-card--rounded {
-    border-radius: var(--radius-card);
+  .project-card--compact .project-card__media {
+    aspect-ratio: 1024 / 615;
   }
 
-  .project-card__image {
+  .project-card__media :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
   }
 
-  .project-card:hover {
-    box-shadow: var(--shadow-card);
+  .project-card__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--space-3);
+    background: linear-gradient(180deg, rgb(14 23 38 / 0) 40%, rgb(14 23 38 / 0.62) 100%);
+    opacity: 0;
+    transition: opacity var(--duration-slow) var(--ease);
   }
 
-  .project-card:hover .project-card__image {
-    transform: scale(1.03);
+  .project-card__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    background: rgb(255 255 255 / 0.95);
+    border-radius: var(--radius-pill);
+    color: var(--color-ink);
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .project-card,
-    .project-card__image {
-      transition: none;
-    }
+  .project-card__link:hover .project-card__overlay,
+  .project-card__link:focus-visible .project-card__overlay {
+    opacity: 1;
+  }
 
-    .project-card:hover .project-card__image {
-      transform: none;
+  .project-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-4);
+  }
+
+  .project-card--compact .project-card__body {
+    padding: var(--space-3);
+  }
+
+  .project-card__category {
+    color: var(--color-primary);
+    font-size: var(--fs-small);
+    font-weight: 600;
+  }
+
+  .project-card__title {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+    transition: color var(--duration-base) var(--ease);
+  }
+
+  .project-card--compact .project-card__title {
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+  }
+
+  .project-card__link:hover .project-card__title,
+  .project-card__link:focus-visible .project-card__title {
+    color: var(--color-primary);
+  }
+
+  .project-card__text {
+    margin-top: 4px;
+    color: var(--color-text-muted);
+    font-size: var(--fs-label);
+  }
+
+  /* Touch devices: no hover, so no overlay; info below the image already carries everything. */
+  @media (hover: none) {
+    .project-card__overlay {
+      display: none;
     }
   }
 </style>

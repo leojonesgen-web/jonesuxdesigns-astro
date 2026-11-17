@@ -1,21 +1,14 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../assets/brand/logo.png';
 import Button from './Button.astro';
-import { mainNav, site, type NavKey } from '../data/site';
-
-interface Props {
-  /** Which main-nav item is shown as active. Omit on pages that aren't in the nav. */
-  current?: NavKey;
-}
-
-const { current } = Astro.props;
+import Icon from './Icon.astro';
+import Wordmark from './Wordmark.astro';
+import { contactHref, mainNav, site } from '../data/site';
 ---
 
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="/" aria-label={`${site.name}, home`}>
-      <Image src={logo} alt="" width={85} height={40} loading="eager" />
+  <div class="container site-header__inner">
+    <a class="site-header__brand" href="/#top" aria-label={`${site.name}, home`}>
+      <Wordmark />
     </a>
 
     <button
@@ -23,9 +16,10 @@ const { current } = Astro.props;
       type="button"
       aria-expanded="false"
       aria-controls="site-menu"
+      aria-label="Open menu"
     >
-      <span class="visually-hidden">Menu</span>
-      <span class="site-header__toggle-bar" aria-hidden="true"></span>
+      <Icon name="menu" class="icon-open" />
+      <Icon name="close" class="icon-close" />
     </button>
 
     <div class="site-header__menu" id="site-menu">
@@ -34,11 +28,7 @@ const { current } = Astro.props;
           {
             mainNav.map((item) => (
               <li>
-                <a
-                  class:list={['site-nav__link', { 'is-active': item.key === current }]}
-                  href={item.href}
-                  aria-current={item.key === current ? 'page' : undefined}
-                >
+                <a class="site-nav__link" href={item.href}>
                   {item.label}
                 </a>
               </li>
@@ -46,7 +36,7 @@ const { current } = Astro.props;
           }
         </ul>
       </nav>
-      <Button href="/#contact" variant="outline" size="md" class="site-header__cta">Contact</Button>
+      <Button href={contactHref}>Contact</Button>
     </div>
   </div>
 </header>
@@ -58,113 +48,86 @@ const { current } = Astro.props;
   if (header && toggle) {
     const setOpen = (open: boolean) => {
       toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       header.classList.toggle('is-open', open);
     };
 
-    toggle.addEventListener('click', () => {
-      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
-    });
-
-    // Close after choosing a link (same-page anchors don't reload the page).
-    header.querySelectorAll('#site-menu a').forEach((link) => {
-      link.addEventListener('click', () => setOpen(false));
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && header.classList.contains('is-open')) {
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    header.querySelectorAll('#site-menu a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.classList.contains('is-open')) {
         setOpen(false);
         toggle.focus();
       }
     });
+
+    // Subtle border once the page has scrolled under the sticky header.
+    const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
   }
 </script>
 
 <style>
   .site-header {
-    position: relative;
-    z-index: 20;
-    background: var(--color-page);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(247 249 252 / 0.92);
+    backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--duration-base) var(--ease);
+  }
+
+  .site-header.is-scrolled {
+    border-bottom-color: var(--color-border);
   }
 
   .site-header__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: 84px;
-    padding: 20px 42px;
+    gap: var(--space-4);
+    height: var(--header-height);
   }
 
   .site-header__brand {
-    flex-shrink: 0;
+    border-radius: 4px;
   }
 
   .site-header__menu {
-    display: contents;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
   }
 
   .site-nav {
     display: flex;
-    align-items: stretch;
+    gap: var(--space-1);
   }
 
   .site-nav__link {
-    position: relative;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    height: 44px;
-    padding: 0 20px;
+    min-height: 44px;
+    padding: 0 12px;
+    border-radius: var(--radius-small);
     color: var(--color-text);
-    font-family: var(--font-alt);
-    font-size: 14px;
-    font-weight: 900;
-    line-height: 18px;
-    white-space: nowrap;
-    transition: color 0.2s ease;
+    font-size: var(--fs-label);
+    font-weight: 500;
+    transition: color var(--duration-base) var(--ease), background-color var(--duration-base) var(--ease);
   }
 
-  .site-nav__link::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    background: var(--color-nav-active);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-  }
-
-  .site-nav__link:hover,
-  .site-nav__link.is-active {
-    color: var(--color-nav-active);
-  }
-
-  .site-nav__link.is-active::after {
-    opacity: 1;
+  .site-nav__link:hover {
+    color: var(--color-primary);
+    background: var(--color-primary-tint);
   }
 
   .site-header__toggle {
     display: none;
   }
 
-  /* Tablet: tighten spacing so everything still fits on one row */
-  @media (max-width: 1024px) {
-    .site-header__inner {
-      padding-inline: var(--gutter);
-    }
-
-    .site-nav__link {
-      padding: 0 14px;
-    }
-  }
-
-  /* Mobile: collapse nav + CTA into a toggleable panel */
   @media (max-width: 860px) {
-    .site-header__inner {
-      min-height: 72px;
-      padding-block: 16px;
-    }
-
     .site-header__toggle {
       display: inline-flex;
       align-items: center;
@@ -172,55 +135,20 @@ const { current } = Astro.props;
       width: 44px;
       height: 44px;
       padding: 0;
-      background: transparent;
-      border: 1px solid var(--color-border-soft);
-      border-radius: 50%;
-      color: var(--color-button-text);
+      background: var(--color-surface);
+      border: 1.5px solid var(--color-border-strong);
+      border-radius: var(--radius-pill);
+      color: var(--color-ink);
       cursor: pointer;
     }
 
-    .site-header__toggle-bar,
-    .site-header__toggle-bar::before,
-    .site-header__toggle-bar::after {
+    .site-header__toggle :global(.icon-close),
+    .is-open .site-header__toggle :global(.icon-open) {
+      display: none;
+    }
+
+    .is-open .site-header__toggle :global(.icon-close) {
       display: block;
-      width: 18px;
-      height: 2px;
-      background: currentColor;
-      border-radius: 1px;
-      transition:
-        transform 0.2s ease,
-        opacity 0.2s ease;
-    }
-
-    .site-header__toggle-bar {
-      position: relative;
-    }
-
-    .site-header__toggle-bar::before,
-    .site-header__toggle-bar::after {
-      content: '';
-      position: absolute;
-      left: 0;
-    }
-
-    .site-header__toggle-bar::before {
-      top: -6px;
-    }
-
-    .site-header__toggle-bar::after {
-      top: 6px;
-    }
-
-    .is-open .site-header__toggle-bar {
-      background: transparent;
-    }
-
-    .is-open .site-header__toggle-bar::before {
-      transform: translateY(6px) rotate(45deg);
-    }
-
-    .is-open .site-header__toggle-bar::after {
-      transform: translateY(-6px) rotate(-45deg);
     }
 
     .site-header__menu {
@@ -231,10 +159,11 @@ const { current } = Astro.props;
       display: none;
       flex-direction: column;
       align-items: stretch;
-      gap: 16px;
-      padding: 8px var(--gutter) 24px;
-      background: var(--color-white);
-      box-shadow: 0 12px 24px -12px rgb(36 111 225 / 0.25);
+      gap: var(--space-3);
+      padding: var(--space-2) var(--gutter) var(--space-4);
+      background: var(--color-surface);
+      border-bottom: 1px solid var(--color-border);
+      box-shadow: var(--shadow-raised);
     }
 
     .is-open .site-header__menu {
@@ -243,21 +172,13 @@ const { current } = Astro.props;
 
     .site-nav {
       flex-direction: column;
+      gap: 0;
     }
 
     .site-nav__link {
-      height: 48px;
-      padding: 0 4px;
-      font-size: 16px;
-    }
-
-    .site-nav__link::after {
-      right: auto;
-      width: 32px;
-    }
-
-    .site-header__menu :global(.site-header__cta) {
-      align-self: flex-start;
+      width: 100%;
+      min-height: 48px;
+      font-size: 1rem;
     }
   }
 </style>

@@ -1,37 +1,35 @@
-import whatsapp from '../assets/social/whatsapp.svg';
-import instagram from '../assets/social/instagram.png';
-import linkedin from '../assets/social/linkedin.svg';
-import email from '../assets/social/email.svg';
-import behance from '../assets/social/behance.svg';
-
 export const site = {
   name: 'Jones UX Designs',
+  owner: 'Leonard',
+  role: 'Product Designer for Early-Stage AI Products',
   description:
-    'UX/UI design for websites, apps and AI products, with a focus on clear experiences and real user needs.',
-  email: 'contact@jonesuxdesigns.com',
+    'I help AI startups turn complex or fast-built products into clear, coherent experiences users can understand and use.',
 };
 
-export type NavKey = 'home' | 'about' | 'best' | 'work';
+/** Approved contact methods. */
+export const contact = {
+  email: 'contact@jonesuxdesigns.com',
+  whatsappNumber: '972535030959',
+  linkedinUrl: 'https://www.linkedin.com/in/leonard-jones-6212b324b/',
+};
 
-/** Main navigation. Section links use absolute paths so they also work from project pages. */
-export const mainNav: { key: NavKey; label: string; href: string }[] = [
-  { key: 'home', label: 'Home', href: '/' },
-  { key: 'about', label: 'About me', href: '/#about' },
-  { key: 'best', label: 'Best work', href: '/#featured' },
-  { key: 'work', label: 'Portfolio', href: '/#work' },
+export const whatsappHref = (message?: string) =>
+  `https://wa.me/${contact.whatsappNumber}${message ? `?text=${encodeURIComponent(message)}` : ''}`;
+
+export const emailHref = (subject?: string, body?: string) => {
+  const params = new URLSearchParams();
+  if (subject) params.set('subject', subject);
+  if (body) params.set('body', body);
+  const query = params.toString().replace(/\+/g, '%20');
+  return `mailto:${contact.email}${query ? `?${query}` : ''}`;
+};
+
+/** Main navigation: homepage anchors. Contact is rendered separately as the primary button. */
+export const mainNav = [
+  { label: 'Home', href: '/#top' },
+  { label: 'About Me', href: '/#about' },
+  { label: 'My Portfolio', href: '/#work' },
+  { label: 'How Do I Work', href: '/#process' },
 ];
 
-export const footerLinks = [
-  { label: 'Home', href: '/' },
-  { label: 'Work', href: '/#work' },
-  { label: 'About me', href: '/#about' },
-  { label: 'Contact', href: '/#contact' },
-];
-
-export const socials = [
-  { label: 'WhatsApp', href: 'https://wa.me/972535030959', icon: whatsapp },
-  { label: 'Instagram', href: 'https://www.instagram.com/leonard.jones1/', icon: instagram },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/leonard-jones-6212b324b/', icon: linkedin },
-  { label: 'Email', href: 'mailto:contact@jonesuxdesigns.com', icon: email },
-  { label: 'Behance', href: 'https://www.behance.net/leojones5', icon: behance },
-];
+export const contactHref = '/#contact';

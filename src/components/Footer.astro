@@ -1,226 +1,104 @@
 ---
-import { Image } from 'astro:assets';
-import logo from '../assets/brand/logo.png';
-import { footerLinks, site, socials } from '../data/site';
+import Wordmark from './Wordmark.astro';
+import { contact, contactHref, emailHref, mainNav, site, whatsappHref } from '../data/site';
 
 const year = new Date().getFullYear();
 ---
 
-<footer class="site-footer" id="contact">
+<footer class="site-footer">
   <div class="container site-footer__inner">
-    <section class="site-footer__cta" aria-labelledby="contact-title">
-      <h2 class="site-footer__title" id="contact-title">Feel free to reach out</h2>
-      <ul class="socials">
-        {
-          socials.map((s) => (
-            <li>
-              <a
-                class="socials__link"
-                href={s.href}
-                {...(s.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-              >
-                <Image src={s.icon} alt="" width={42} height={Math.round(s.icon.height * (42 / s.icon.width))} />
-                <span class="visually-hidden">{s.label}</span>
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
-
-    <div class="site-footer__columns">
-      <div class="site-footer__brand">
-        <Image src={logo} alt={site.name} width={51} height={24} />
-        <p class="site-footer__summary">
-          I design clear, thoughtful digital experiences with a focus on structure, usability, and
-          polished UI.
-        </p>
-      </div>
-
-      <nav class="site-footer__col" aria-labelledby="footer-links-title">
-        <h2 class="site-footer__heading" id="footer-links-title">Quick Links</h2>
-        <ul class="site-footer__list">
-          {
-            footerLinks.map((link) => (
-              <li>
-                <a class="site-footer__link" href={link.href}>
-                  {link.label}
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
-
-      <div class="site-footer__col">
-        <h2 class="site-footer__heading">Let's Connect</h2>
-        <p class="site-footer__link-text">
-          Email:<br />
-          <a class="site-footer__link" href={`mailto:${site.email}`}>{site.email}</a>
-        </p>
-      </div>
+    <div class="site-footer__brand">
+      <Wordmark />
+      <p>{site.role}</p>
     </div>
 
-    <p class="site-footer__copyright">© {year} {site.name}. All rights reserved.</p>
+    <nav class="site-footer__col" aria-label="Footer">
+      <h2 class="site-footer__heading">Pages</h2>
+      <ul>
+        {mainNav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href={contactHref}>Contact</a></li>
+      </ul>
+    </nav>
+
+    <div class="site-footer__col">
+      <h2 class="site-footer__heading">Contact</h2>
+      <ul>
+        <li><a href={emailHref()}>{contact.email}</a></li>
+        <li><a href={whatsappHref()} target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+        <li><a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container">
+    <p class="site-footer__legal">© {year} {site.name}. All rights reserved.</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    padding-block: 56px;
-    background: var(--color-footer-bg);
-    color: var(--color-footer-text);
-    scroll-margin-top: 16px;
+    padding-block: var(--space-7) var(--space-5);
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--fs-label);
   }
 
   .site-footer__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Contact CTA */
-  .site-footer__cta {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 25px 0 29px;
-  }
-
-  .site-footer__title {
-    color: var(--color-text);
-    font-size: 40px;
-    font-weight: 600;
-    line-height: 1.2;
-    text-align: center;
-  }
-
-  .socials {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 24px;
-    padding-bottom: 7px;
-  }
-
-  .socials__link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    transition: transform 0.2s ease;
-  }
-
-  .socials__link:hover {
-    transform: translateY(-2px);
-  }
-
-  /* Columns: widths follow the Figma frame (317 + 244 spacer, 207, 244) */
-  .site-footer__columns {
     display: grid;
-    grid-template-columns: 561px 207px 244px;
-    gap: 20px;
-    justify-content: center;
-    width: 100%;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--space-6);
   }
 
   .site-footer__brand {
     display: flex;
     flex-direction: column;
-    gap: 26px;
-    max-width: 317px;
-  }
-
-  .site-footer__summary {
-    font-family: var(--font-alt);
-    font-size: 15px;
-    font-weight: 300;
-    line-height: 1.5;
-  }
-
-  .site-footer__col {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
   }
 
   .site-footer__heading {
-    color: var(--color-footer-heading);
-    font-family: var(--font-alt);
-    font-size: 21px;
-    font-weight: 900;
-    line-height: 1.25;
+    margin-bottom: var(--space-2);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
   }
 
-  .site-footer__list {
+  .site-footer__col ul {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 4px;
   }
 
-  .site-footer__link,
-  .site-footer__link-text {
-    font-family: var(--font-alt);
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 24px;
+  .site-footer__col a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    border-radius: 4px;
+    color: var(--color-text-muted);
+    transition: color var(--duration-base) var(--ease);
   }
 
-  .site-footer__link {
-    transition: color 0.2s ease;
-  }
-
-  .site-footer__link:hover {
+  .site-footer__col a:hover {
     color: var(--color-primary);
   }
 
-  .site-footer__copyright {
-    padding-top: 68px;
-    color: var(--color-text);
-    font-family: var(--font-alt);
-    font-size: 16px;
-    font-weight: 300;
-    line-height: 24px;
-    text-align: center;
-  }
-
-  @media (max-width: 1024px) {
-    .site-footer__columns {
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
-      gap: 32px;
-    }
+  .site-footer__legal {
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
   }
 
   @media (max-width: 768px) {
-    .site-footer {
-      padding-block: 40px;
-    }
-
-    .site-footer__title {
-      font-size: 30px;
-    }
-
-    .site-footer__columns {
+    .site-footer__inner {
       grid-template-columns: 1fr 1fr;
-      gap: 32px 24px;
+      gap: var(--space-5);
     }
 
     .site-footer__brand {
       grid-column: 1 / -1;
-      max-width: none;
-    }
-
-    .site-footer__copyright {
-      padding-top: 40px;
-      font-size: 14px;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .site-footer__columns {
-      grid-template-columns: 1fr;
     }
   }
 </style>

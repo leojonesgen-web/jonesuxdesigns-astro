@@ -1,0 +1,44 @@
+---
+/** Eyebrow + heading + optional lead. Left-aligned by default for scanning. */
+interface Props {
+  eyebrow?: string;
+  title: string;
+  id: string;
+  level?: 'h2' | 'h3';
+  class?: string;
+}
+
+const { eyebrow, title, id, level = 'h2', class: className } = Astro.props;
+const Heading = level;
+---
+
+<div class:list={['section-intro', className]}>
+  {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+  <Heading class:list={['section-intro__title', `section-intro__title--${level}`]} id={id}>{title}</Heading>
+  {Astro.slots.has('default') && <div class="section-intro__lead"><slot /></div>}
+</div>
+
+<style>
+  .section-intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 720px;
+  }
+
+  .section-intro__title--h2 {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+  }
+
+  .section-intro__title--h3 {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .section-intro__lead {
+    margin-top: 4px;
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-lg);
+  }
+</style>

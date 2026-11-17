@@ -1,0 +1,89 @@
+---
+/** Final Contact: the intentional conclusion of the page. */
+import ContactOptions from '../ContactOptions.astro';
+---
+
+<section class="final-contact" id="contact" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="final-contact__inner">
+      <div class="final-contact__copy">
+        <p class="final-contact__eyebrow">Contact</p>
+        <h2 class="final-contact__title" id="contact-title">
+          Let’s make your AI product easier to understand and use
+        </h2>
+        <p class="final-contact__text">
+          Tell me about your product and where users get stuck. We can start with a complimentary
+          initial UX consultation to see whether working together makes sense.
+        </p>
+      </div>
+      <ContactOptions
+        tone="on-deep"
+        subject="Enquiry from jonesuxdesigns.com"
+        message="Hi Leonard, I'd like to talk about my product."
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-contact {
+    padding-block: var(--section-space);
+  }
+
+  .final-contact__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--space-7);
+    align-items: center;
+    padding: var(--space-8) var(--space-7);
+    background: var(--color-deep);
+    border-radius: 20px;
+    color: var(--color-on-deep);
+  }
+
+  .final-contact__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .final-contact__eyebrow {
+    color: var(--color-on-deep-muted);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .final-contact__title {
+    max-width: 18ch;
+    color: var(--color-on-deep);
+    font-size: var(--fs-h1);
+    font-weight: 700;
+  }
+
+  .final-contact__text {
+    max-width: 44ch;
+    color: var(--color-on-deep-muted);
+    font-size: var(--fs-body-lg);
+  }
+
+  @media (max-width: 1024px) {
+    .final-contact__inner {
+      grid-template-columns: 1fr;
+      gap: var(--space-5);
+      padding: var(--space-7) var(--space-5);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .final-contact .container {
+      padding-inline: var(--space-1);
+    }
+
+    .final-contact__inner {
+      padding: var(--space-6) var(--space-4);
+      border-radius: 16px;
+    }
+  }
+</style>

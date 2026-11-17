@@ -1,0 +1,87 @@
+---
+/** Selected Work (primary) + Broader Work (secondary) */
+import SectionIntro from '../SectionIntro.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { broaderProjects, selectedProjects } from '../../data/projects';
+---
+
+<section class="section work" id="work" aria-labelledby="work-title">
+  <div class="container">
+    <SectionIntro eyebrow="Selected work" title="Product design work" id="work-title">
+      <p>Case studies and UI/UX design work, from trip planning to veterinary booking.</p>
+    </SectionIntro>
+
+    <ul class="work__selected">
+      {
+        selectedProjects.map((project) => (
+          <li>
+            <ProjectCard project={project} />
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="work__broader" id="more-work">
+      <SectionIntro title="More work" id="more-work-title" level="h3">
+        <p>App, landing-page and product UI design.</p>
+      </SectionIntro>
+      <ul class="work__broader-grid" aria-labelledby="more-work-title">
+        {
+          broaderProjects.map((project) => (
+            <li>
+              <ProjectCard project={project} size="compact" />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work__selected {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .work__broader {
+    margin-top: var(--space-9);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .work__broader-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  @media (max-width: 1024px) {
+    .work__selected {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .work__selected > li:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .work__broader-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .work__selected,
+    .work__broader-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .work__broader {
+      margin-top: var(--space-7);
+    }
+  }
+</style>

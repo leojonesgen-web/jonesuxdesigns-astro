@@ -1,0 +1,164 @@
+---
+/**
+ * The three approved contact methods as labelled rows (icon + text, never icon-only).
+ * When `message` is given, WhatsApp and email open with that intent pre-filled.
+ * Links carry data attributes so the contact dialog can update them at runtime.
+ */
+import { Image } from 'astro:assets';
+import whatsappIcon from '../assets/social/whatsapp.svg';
+import linkedinIcon from '../assets/social/linkedin.svg';
+import Icon from './Icon.astro';
+import { contact, emailHref, whatsappHref } from '../data/site';
+
+interface Props {
+  message?: string;
+  subject?: string;
+  tone?: 'default' | 'on-deep';
+}
+
+const { message, subject = 'Enquiry from jonesuxdesigns.com', tone = 'default' } = Astro.props;
+---
+
+<ul class:list={['contact-options', `contact-options--${tone}`]}>
+  <li>
+    <a
+      class="contact-option"
+      href={whatsappHref(message)}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-contact-link="whatsapp"
+    >
+      <Image src={whatsappIcon} alt="" width={28} height={28} loading="eager" />
+      <span class="contact-option__text">
+        <span class="contact-option__label">WhatsApp</span>
+        <span class="contact-option__meta">Send a message</span>
+      </span>
+      <Icon name="arrow-up-right" size={20} class="contact-option__arrow" />
+    </a>
+  </li>
+  <li>
+    <a class="contact-option" href={emailHref(subject, message)} data-contact-link="email">
+      <span class="contact-option__mail"><Icon name="mail" size={18} /></span>
+      <span class="contact-option__text">
+        <span class="contact-option__label">Email</span>
+        <span class="contact-option__meta">{contact.email}</span>
+      </span>
+      <Icon name="arrow-up-right" size={20} class="contact-option__arrow" />
+    </a>
+  </li>
+  <li>
+    <a
+      class="contact-option"
+      href={contact.linkedinUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-contact-link="linkedin"
+    >
+      <Image src={linkedinIcon} alt="" width={28} height={28} loading="eager" />
+      <span class="contact-option__text">
+        <span class="contact-option__label">LinkedIn</span>
+        <span class="contact-option__meta">Connect or send a message</span>
+      </span>
+      <Icon name="arrow-up-right" size={20} class="contact-option__arrow" />
+    </a>
+  </li>
+</ul>
+
+<style>
+  .contact-options {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .contact-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 64px;
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    color: var(--color-ink);
+    transition:
+      border-color var(--duration-base) var(--ease),
+      background-color var(--duration-base) var(--ease);
+  }
+
+  .contact-option:hover {
+    border-color: var(--color-primary);
+    background: var(--color-primary-tint);
+  }
+
+  .contact-option__mail {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    background: var(--color-ink);
+    border-radius: 50%;
+    color: #fff;
+  }
+
+  .contact-option__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .contact-option__label {
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .contact-option__meta {
+    overflow: hidden;
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .contact-option :global(.contact-option__arrow) {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+    transition: color var(--duration-base) var(--ease);
+  }
+
+  .contact-option:hover :global(.contact-option__arrow) {
+    color: var(--color-primary);
+  }
+
+  /* On the dark Final Contact surface */
+  .contact-options--on-deep .contact-option {
+    background: rgb(255 255 255 / 0.06);
+    border-color: rgb(255 255 255 / 0.18);
+    color: var(--color-on-deep);
+  }
+
+  .contact-options--on-deep .contact-option:hover {
+    background: rgb(255 255 255 / 0.12);
+    border-color: rgb(255 255 255 / 0.4);
+  }
+
+  .contact-options--on-deep .contact-option__meta,
+  .contact-options--on-deep :global(.contact-option__arrow) {
+    color: var(--color-on-deep-muted);
+  }
+
+  .contact-options--on-deep .contact-option:hover :global(.contact-option__arrow) {
+    color: var(--color-on-deep);
+  }
+
+  .contact-options--on-deep .contact-option__mail {
+    background: #fff;
+    color: var(--color-deep);
+  }
+
+  .contact-options--on-deep :global(.contact-option:focus-visible) {
+    box-shadow: 0 0 0 3px var(--color-deep), 0 0 0 5px #fff;
+  }
+</style>

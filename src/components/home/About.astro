@@ -1,184 +1,143 @@
 ---
-import { Image } from 'astro:assets';
-import SectionHeader from '../SectionHeader.astro';
-import ValueCard from '../ValueCard.astro';
-import SkillCard from '../SkillCard.astro';
-import portrait from '../../assets/about/about-portrait.png';
-import { skills, values } from '../../data/content';
+/** About / Why Me: no portrait by design. Identity + approach on the left, strengths on the right. */
+import SectionIntro from '../SectionIntro.astro';
+import Icon from '../Icon.astro';
+import { skills } from '../../data/content';
 ---
 
 <section class="section about" id="about" aria-labelledby="about-title">
   <div class="container about__inner">
-    <div class="about__values">
-      <SectionHeader
-        id="about-title"
-        title="Get to know me, my values & my skills"
-        subtitle="Four core values guide how I think, design, and create meaningful digital experiences."
-      />
-      <ul class="about__values-grid">
-        {values.map((v) => <ValueCard label={v.label} icon={v.icon} iconSize={v.iconSize} />)}
-      </ul>
+    <div class="about__story">
+      <SectionIntro eyebrow="About me" title="Why work with me" id="about-title" />
+      <p class="about__lead">
+        I’m Leonard, a Product, UX and UI designer focused on early-stage AI products.
+      </p>
+      <p>
+        My work centres on making complex products understandable: organizing information,
+        structuring flows and designing clean interfaces people can use with confidence.
+      </p>
+      <p>
+        Early-stage products move fast, and features often ship before the experience has time to
+        mature. I help teams bring structure and clarity to what they’ve built, so users can
+        understand what the product does, what is happening and what to do next.
+      </p>
     </div>
 
-    <div class="about__content">
-      <figure class="about__photo">
-        <Image src={portrait} alt="Portrait of the designer" width={335} densities={[1, 2]} />
-      </figure>
-
-      <div class="about__bio">
-        <div class="about__text">
-          <h3 class="about__heading">About me</h3>
-          <p class="about__lead">
-            I'm a UX &amp; AI Interaction Designer turning complex challenges into clear, intuitive,
-            and meaningful digital experiences.
-          </p>
-        </div>
-        <ul class="about__skills">
-          {
-            skills.map((s) => (
-              <SkillCard label={s.label} percent={s.percent} icon={s.icon} iconSize={s.iconSize} />
-            ))
-          }
-        </ul>
-      </div>
+    <div class="about__skills">
+      <h3 class="about__skills-title">Strengths I bring</h3>
+      <ul class="about__skills-grid">
+        {
+          skills.map((s) => (
+            <li class="skill">
+              <span class="skill__icon">
+                <Icon name={s.icon} size={22} />
+              </span>
+              <div>
+                <h4 class="skill__title">{s.title}</h4>
+                <p class="skill__text">{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
     </div>
   </div>
 </section>
 
 <style>
+  .about {
+    background: var(--color-surface);
+    border-block: 1px solid var(--color-border);
+  }
+
   .about__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 52px;
-  }
-
-  .about__values {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    width: 100%;
-  }
-
-  .about__values-grid {
     display: grid;
-    grid-template-columns: repeat(4, 257px);
-    gap: 12px;
-    padding: 8px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-8);
+    align-items: start;
   }
 
-  .about__content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 36px;
-    width: 100%;
-  }
-
-  /* Gradient card with the portrait clipped to the same rounded shape (Figma mask group) */
-  .about__photo {
-    position: relative;
-    flex-shrink: 0;
-    width: 334px;
-    height: 417px;
-    overflow: hidden;
-    background: var(--gradient-portrait);
-    border-radius: var(--radius-portrait);
-  }
-
-  .about__photo :global(img) {
-    position: absolute;
-    top: 15px;
-    left: 0;
-    width: 100%;
-    height: calc(100% - 15px);
-    object-fit: cover;
-  }
-
-  .about__bio {
+  .about__story {
     display: flex;
     flex-direction: column;
-    gap: 42px;
-    width: 546px;
-  }
-
-  .about__text {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .about__heading {
-    font-size: 26px;
-    font-weight: 600;
-    line-height: 1.25;
+    gap: var(--space-3);
+    max-width: 34em;
   }
 
   .about__lead {
-    font-size: 26px;
-    font-weight: 400;
-    line-height: 1.25;
+    margin-top: var(--space-2);
+    color: var(--color-ink);
+    font-size: var(--fs-body-lg);
+    font-weight: 500;
   }
 
-  .about__skills {
+  .about__skills-title {
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .about__skills-grid {
     display: grid;
-    grid-template-columns: repeat(2, 266px);
-    gap: 18px 12px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
   }
 
-  @media (max-width: 1140px) {
-    .about__values-grid {
-      grid-template-columns: repeat(2, minmax(0, 257px));
-    }
+  .skill {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .skill__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-primary-tint-strong);
+    border-radius: 10px;
+    color: var(--color-primary);
+  }
+
+  .skill__icon :global(svg) {
+    stroke-width: 2;
+  }
+
+  .skill__title {
+    font-size: 1.0625rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .skill__text {
+    margin-top: 2px;
+    color: var(--color-text-muted);
+    font-size: var(--fs-label);
+    line-height: 1.5;
   }
 
   @media (max-width: 1024px) {
-    .about__content {
-      flex-direction: column;
-      gap: 40px;
-    }
-
-    .about__bio {
-      width: 100%;
-      max-width: 546px;
-    }
-  }
-
-  @media (max-width: 768px) {
     .about__inner {
-      gap: 40px;
-    }
-
-    .about__heading {
-      font-size: 22px;
-    }
-
-    .about__lead {
-      font-size: 20px;
-    }
-
-    .about__photo {
-      width: min(100%, 300px);
-      height: auto;
-      aspect-ratio: 334 / 417;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
     }
   }
 
   @media (max-width: 600px) {
-    .about__values-grid,
-    .about__skills {
+    .about__skills-grid {
       grid-template-columns: 1fr;
-      width: 100%;
-      max-width: 320px;
     }
 
-    .about__values-grid {
-      padding: 8px 0;
-    }
-
-    .about__skills {
-      margin-inline: auto;
+    .skill {
+      padding: var(--space-3);
     }
   }
 </style>

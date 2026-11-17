@@ -1,73 +1,118 @@
 ---
-interface Props {
-  href: string;
-  variant?: 'primary' | 'outline';
+/**
+ * Pill button. Renders <a> when href is given, otherwise <button>.
+ * primary   = solid blue (main action)
+ * secondary = light surface + visible stroke
+ * on-deep   = for use on the dark Final Contact surface
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+type Variant = 'primary' | 'secondary' | 'on-deep';
+
+interface Props extends Omit<HTMLAttributes<'button'>, 'class'> {
+  href?: string;
+  variant?: Variant;
   size?: 'md' | 'lg';
   class?: string;
+  external?: boolean;
 }
 
-const { href, variant = 'primary', size = 'lg', class: className } = Astro.props;
-const isExternal = /^https?:\/\//.test(href);
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  class: className,
+  external = false,
+  ...rest
+} = Astro.props;
+const classes = ['btn', `btn--${variant}`, `btn--${size}`, className];
+const externalAttrs = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
 ---
 
-<a
-  href={href}
-  class:list={['btn', `btn--${variant}`, `btn--${size}`, className]}
-  {...isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
->
-  <slot />
-</a>
+{
+  href ? (
+    <a href={href} class:list={classes} {...externalAttrs} {...(rest as HTMLAttributes<'a'>)}>
+      <slot />
+    </a>
+  ) : (
+    <button type="button" class:list={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}
 
 <style>
   .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 12px 24px;
-    border: 1px solid transparent;
+    gap: 8px;
+    border: 1.5px solid transparent;
     border-radius: var(--radius-pill);
-    font-family: var(--font-sans);
     font-weight: 600;
-    line-height: 1;
+    line-height: 1.2;
     white-space: nowrap;
+    cursor: pointer;
     transition:
-      background-color 0.2s ease,
-      border-color 0.2s ease,
-      color 0.2s ease,
-      box-shadow 0.2s ease;
-  }
-
-  .btn--lg {
-    font-size: 22px;
+      background-color var(--duration-base) var(--ease),
+      border-color var(--duration-base) var(--ease),
+      color var(--duration-base) var(--ease);
   }
 
   .btn--md {
-    font-size: 18px;
+    min-height: 44px;
+    padding: 10px 20px;
+    font-size: var(--fs-label);
+  }
+
+  .btn--lg {
+    min-height: 52px;
+    padding: 14px 28px;
+    font-size: 1rem;
   }
 
   .btn--primary {
     background: var(--color-primary);
-    color: var(--color-white);
+    color: #fff;
   }
 
   .btn--primary:hover {
-    background: var(--color-royal);
+    background: var(--color-primary-strong);
   }
 
-  .btn--outline {
-    background: var(--color-white);
-    border-color: var(--color-border-soft);
-    color: var(--color-button-text);
+  .btn--primary:active {
+    background: #123b78;
   }
 
-  .btn--outline:hover {
+  .btn--secondary {
+    background: var(--color-surface);
+    border-color: var(--color-border-strong);
+    color: var(--color-ink);
+  }
+
+  .btn--secondary:hover {
+    background: var(--color-primary-tint);
     border-color: var(--color-primary);
-    box-shadow: var(--shadow-card);
   }
 
-  @media (max-width: 768px) {
-    .btn--lg {
-      font-size: 18px;
-    }
+  .btn--secondary:active {
+    background: var(--color-primary-tint-strong);
+  }
+
+  .btn--on-deep {
+    background: var(--color-surface);
+    color: var(--color-deep);
+  }
+
+  .btn--on-deep:hover {
+    background: var(--color-primary-tint);
+  }
+
+  .btn--on-deep:active {
+    background: var(--color-primary-tint-strong);
+  }
+
+  .btn :global(svg) {
+    flex-shrink: 0;
   }
 </style>

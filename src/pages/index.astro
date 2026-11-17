@@ -1,16 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/home/Hero.astro';
-import FeaturedWork from '../components/home/FeaturedWork.astro';
+import Problems from '../components/home/Problems.astro';
+import Work from '../components/home/Work.astro';
+import Process from '../components/home/Process.astro';
+import LightCta from '../components/home/LightCta.astro';
 import About from '../components/home/About.astro';
-import HowIWork from '../components/home/HowIWork.astro';
-import ProjectLibrary from '../components/home/ProjectLibrary.astro';
+import Packages from '../components/home/Packages.astro';
+import Faq from '../components/home/Faq.astro';
+import FinalContact from '../components/home/FinalContact.astro';
 ---
 
-<BaseLayout nav="home">
+<BaseLayout>
   <Hero />
-  <FeaturedWork />
+  <Problems />
+  <Work />
+  <Process />
+  <LightCta />
   <About />
-  <HowIWork />
-  <ProjectLibrary />
+  <Packages />
+  <Faq />
+  <FinalContact />
 </BaseLayout>

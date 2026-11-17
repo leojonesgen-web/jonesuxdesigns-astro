@@ -1,0 +1,36 @@
+---
+/**
+ * TEMPORARY logo placeholder: text wordmark.
+ * Replace this component's contents with the final logo when it is supplied.
+ */
+interface Props {
+  tone?: 'default' | 'on-deep';
+}
+const { tone = 'default' } = Astro.props;
+---
+
+<span class:list={['wordmark', `wordmark--${tone}`]} data-logo-placeholder>
+  Jones <span class="wordmark__accent">UX</span> Designs
+</span>
+
+<style>
+  .wordmark {
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .wordmark__accent {
+    color: var(--color-primary);
+  }
+
+  .wordmark--on-deep {
+    color: var(--color-on-deep);
+  }
+
+  .wordmark--on-deep .wordmark__accent {
+    color: var(--color-on-deep-muted);
+  }
+</style>
