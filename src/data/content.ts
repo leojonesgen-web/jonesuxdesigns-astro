@@ -153,10 +153,6 @@ export const faqs = [
     a: 'Both. A UX Review & Direction looks at an existing product. A Focused Product Flow can improve an existing area or design a new one. A Product UX/UI Sprint covers a broader challenge across several connected screens or flows.',
   },
   {
-    q: 'Is it only UI design?',
-    a: 'No. Depending on the engagement, the work can include UX structure, flow thinking, information hierarchy, UI design and the relevant interaction states.',
-  },
-  {
     q: 'Are the package prices fixed?',
     a: 'No. These packages are starting points, not rigid scopes. The engagement can be adjusted around the product, priorities, stage and actual problem, and scope and pricing remain open to discussion.',
   },

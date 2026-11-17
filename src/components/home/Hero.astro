@@ -159,6 +159,13 @@ const [first, second, third] = selectedProjects;
     }
   }
 
+  /* Mobile: the hero is typography-only; the project visual is hidden. */
+  @media (max-width: 640px) {
+    .hero__work {
+      display: none;
+    }
+  }
+
   @media (max-width: 480px) {
     .hero__actions :global(.btn) {
       width: 100%;
