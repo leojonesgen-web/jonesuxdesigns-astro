@@ -1,9 +1,9 @@
 export const site = {
   name: 'Jones UX Designs',
   owner: 'Leonard',
-  role: 'Product Designer for Early-Stage AI Products',
+  role: 'Product Designer for Early-Stage B2C AI Products',
   description:
-    'I help AI startups turn complex or fast-built products into clear, coherent experiences users can understand and use.',
+    'I help early-stage consumer AI startups turn complex ideas and AI-powered features into clear, intuitive products people can understand and use.',
 };
 
 /** Approved contact methods. */

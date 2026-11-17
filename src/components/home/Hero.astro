@@ -17,11 +17,11 @@ const [first, second, third] = selectedProjects;
     <div class="hero__copy">
       <p class="eyebrow">Product / UX / UI Designer</p>
       <h1 class="hero__title" id="hero-title">
-        Product Designer for <span class="hero__accent">Early-Stage AI Products</span>
+        I design clearer experiences for <span class="hero__accent">B2C AI products.</span>
       </h1>
       <p class="hero__lead">
-        I help AI startups turn complex or fast-built products into clear, coherent experiences
-        users can understand and use.
+        I help early-stage consumer AI startups turn complex ideas and AI-powered features into
+        clear, intuitive products people can understand and use.
       </p>
       <div class="hero__actions">
         <Button href="#work" size="lg">View selected work <Icon name="arrow-right" size={18} /></Button>
@@ -66,7 +66,7 @@ const [first, second, third] = selectedProjects;
   }
 
   .hero__title {
-    max-width: 14ch;
+    max-width: 16ch;
     font-size: var(--fs-display);
     font-weight: 750;
     line-height: 1.05;
@@ -75,6 +75,7 @@ const [first, second, third] = selectedProjects;
 
   .hero__accent {
     color: var(--color-primary);
+    white-space: nowrap;
   }
 
   .hero__lead {
