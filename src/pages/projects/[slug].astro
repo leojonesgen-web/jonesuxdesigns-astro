@@ -18,16 +18,18 @@ interface Props {
 }
 
 const { project } = Astro.props;
+const category = project.page?.category ?? project.category;
+const summary = project.page?.summary ?? project.summary;
 ---
 
-<BaseLayout title={project.title} description={`${project.title}: ${project.summary}`}>
+<BaseLayout title={project.title} description={`${project.title}: ${summary}`}>
   <article class="section project">
     <div class="container project__inner">
       <a class="text-link project__back" href="/#work">← Back to portfolio</a>
-      <header class="project__header">
-        <p class="eyebrow">{project.category}</p>
+      <header class="project__header" lang={project.page?.lang}>
+        <p class="eyebrow">{category}</p>
         <h1 class="project__title">{project.title}</h1>
-        <p class="project__summary">{project.summary}</p>
+        <p class="project__summary">{summary}</p>
       </header>
 
       {
