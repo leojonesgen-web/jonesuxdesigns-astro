@@ -34,6 +34,8 @@ export interface Project {
   group: 'selected' | 'broader';
   /** Presentation images shown full width on the project page, in order. */
   gallery?: ImageMetadata[];
+  /** Optional 1px stroke colour around each gallery image. */
+  galleryStroke?: string;
 }
 
 export const projects: Project[] = [
@@ -68,6 +70,7 @@ export const projects: Project[] = [
     imageAlt: 'PawCare veterinary booking app screens on three phones',
     group: 'selected',
     gallery: pawcareGallery,
+    galleryStroke: '#B8C2D0',
   },
   {
     slug: 'filelens',

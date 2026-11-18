@@ -44,7 +44,7 @@ const { project } = Astro.props;
 
     {
       project.gallery && (
-        <div class="container"><div class="gallery">
+        <div class="container"><div class:list={['gallery', { 'gallery--stroke': project.galleryStroke }]} style={project.galleryStroke ? `--gallery-stroke: ${project.galleryStroke}` : undefined}>
           {project.gallery.map((img, i) => (
             <Image
               class="gallery__image"
@@ -82,6 +82,11 @@ const { project } = Astro.props;
     aspect-ratio: 1440 / 1024;
     object-fit: cover;
     border-radius: 26px;
+  }
+
+  /* Optional per-project stroke: 1px, fully opaque */
+  .gallery--stroke .gallery__image {
+    border: 1px solid var(--gallery-stroke);
   }
 
   .project__foot {
