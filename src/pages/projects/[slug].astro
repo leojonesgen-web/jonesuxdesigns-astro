@@ -50,7 +50,7 @@ const { project } = Astro.props;
               class="gallery__image"
               src={img}
               alt={`${project.title} case study, slide ${i + 1} of ${project.gallery!.length}`}
-              widths={[720, 1080, 1440, 2160]}
+              widths={[720, 1080, 1440, 2160].filter((w) => w <= img.width).concat(img.width < 2160 ? [img.width] : [])}
               sizes="(max-width: 1288px) calc(100vw - 48px), 1240px"
               loading={i === 0 ? 'eager' : 'lazy'}
             />
@@ -66,7 +66,7 @@ const { project } = Astro.props;
 </BaseLayout>
 
 <style>
-  /* Case-study media: centred, constrained to the site container (1440×1024 is the export size, not display size) */
+  /* Case-study media: centred, constrained to the site container; each slide keeps its own proportions */
   .gallery {
     display: flex;
     flex-direction: column;
@@ -79,8 +79,6 @@ const { project } = Astro.props;
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 1440 / 1024;
-    object-fit: cover;
     border-radius: 26px;
   }
 

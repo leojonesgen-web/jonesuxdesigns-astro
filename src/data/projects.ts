@@ -8,7 +8,7 @@ import primeRegent from '../assets/projects/prime-regent.png';
 import stellarTime from '../assets/projects/stellar-time.png';
 import nestStory from '../assets/projects/nest-story.png';
 
-/** Case-study presentation images (1440×1024 each), ordered by file name 01, 02, … */
+/** Case-study presentation images, ordered by file name 01, 02, … */
 const slides = (modules: Record<string, { default: ImageMetadata }>) =>
   Object.keys(modules)
     .sort()
@@ -18,6 +18,9 @@ const tripwiseGallery = slides(
 );
 const stepwiseGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/stepwise/*.png', { eager: true }),
+);
+const filelensGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/filelens/*.png', { eager: true }),
 );
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
@@ -84,6 +87,7 @@ export const projects: Project[] = [
     image: filelens,
     imageAlt: 'FileLens website shown on a laptop screen',
     group: 'broader',
+    gallery: filelensGallery,
   },
   {
     slug: 'drive-point',
