@@ -4,7 +4,7 @@ import tripwise from '../assets/projects/tripwise.png';
 import pawcare from '../assets/projects/pawcare.png';
 import filelens from '../assets/projects/filelens.png';
 import drivePoint from '../assets/projects/drive-point.png';
-import primeRegent from '../assets/projects/prime-regent.png';
+import primeRagent from '../assets/projects/prime-ragent.png';
 import stellarTime from '../assets/projects/stellar-time.png';
 import nestory from '../assets/projects/nestory.png';
 
@@ -28,8 +28,8 @@ const drivePointGallery = slides(
 const nestoryGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/nestory/*.png', { eager: true }),
 );
-const primeRegentGallery = slides(
-  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/prime-regent/*.png', { eager: true }),
+const primeRagentGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/prime-ragent/*.png', { eager: true }),
 );
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
@@ -110,14 +110,14 @@ export const projects: Project[] = [
     galleryStroke: '#B8C2D0',
   },
   {
-    slug: 'prime-regent',
-    title: 'Prime Regent',
+    slug: 'prime-ragent',
+    title: 'Prime Ragent',
     category: 'Landing Page Design',
-    summary: 'Landing page design.',
-    image: primeRegent,
-    imageAlt: 'Prime Regent landing page shown on a laptop screen',
+    summary: 'Fragrance with a distinct presence.',
+    image: primeRagent,
+    imageAlt: 'Prime Ragent landing page shown on a laptop screen',
     group: 'broader',
-    gallery: primeRegentGallery,
+    gallery: primeRagentGallery,
   },
   {
     slug: 'stellar-time',
