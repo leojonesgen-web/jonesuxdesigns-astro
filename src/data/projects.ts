@@ -16,6 +16,9 @@ const slides = (modules: Record<string, { default: ImageMetadata }>) =>
 const tripwiseGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/tripwise/*.png', { eager: true }),
 );
+const stepwiseGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/stepwise/*.png', { eager: true }),
+);
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
 );
@@ -59,6 +62,7 @@ export const projects: Project[] = [
     image: stepwise,
     imageAlt: 'StepWise shoe e-commerce website shown on a laptop screen',
     group: 'selected',
+    gallery: stepwiseGallery,
   },
   {
     slug: 'pawcare',
