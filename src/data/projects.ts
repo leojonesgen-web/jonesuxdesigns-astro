@@ -54,8 +54,8 @@ export interface Project {
   gallery?: ImageMetadata[];
   /** Optional 1px stroke colour around each gallery image. */
   galleryStroke?: string;
-  /** Project-page header in the case study's own language (the homepage card keeps the English text). */
-  page?: { lang: string; category: string; summary: string };
+  /** Language of the project's own text (card + page) when it isn't English, e.g. 'de'. */
+  lang?: 'de';
 }
 
 export const projects: Project[] = [
@@ -73,19 +73,14 @@ export const projects: Project[] = [
   {
     slug: 'stepwise',
     title: 'StepWise',
-    category: 'UI/UX Design',
+    category: 'E-Commerce-UI-Design',
     summary:
-      'A German-language shoe e-commerce experience designed for a German-speaking audience.',
+      'Ein Einkaufserlebnis für Schuhe mit klarer Hierarchie, markanter Produktpräsentation und einheitlicher Interaktion.',
+    lang: 'de',
     image: stepwise,
     imageAlt: 'StepWise shoe e-commerce website shown on a laptop screen',
     group: 'selected',
     gallery: stepwiseGallery,
-    page: {
-      lang: 'de',
-      category: 'E-Commerce-UI-Design',
-      summary:
-        'Ein Einkaufserlebnis für Schuhe mit klarer Hierarchie, markanter Produktpräsentation und einheitlicher Interaktion.',
-    },
   },
   {
     slug: 'pawcare',

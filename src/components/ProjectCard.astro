@@ -31,7 +31,7 @@ const Heading = size === 'large' ? 'h3' : 'h4';
         <span class="project-card__cta"><Icon name="arrow-up-right" size={18} /></span>
       </span>
     </div>
-    <div class="project-card__body">
+    <div class="project-card__body" lang={project.lang}>
       <p class="project-card__category">{project.category}</p>
       <Heading class="project-card__title">{project.title}</Heading>
       {size === 'large' && <p class="project-card__text">{project.summary}</p>}
