@@ -83,63 +83,26 @@ export const processSteps = [
   },
 ];
 
-/** About proposals: the six existing skills condensed into four (no new claims). */
-export const strengths: { title: string; short: string; text: string; icon: IconName }[] = [
+/** About / Why work with me: four strengths (condensed from the original six; no new claims). */
+export const strengths: { title: string; line: string; icon: IconName }[] = [
   {
     title: 'Clear structure',
-    short: 'Clear structure and information architecture',
-    text: 'Organizing features, content and multi-step flows so people can find what matters and follow along.',
+    line: 'Information and flows organized so people can follow along.',
     icon: 'sitemap',
   },
   {
     title: 'Visual hierarchy & clean UI',
-    short: 'Strong visual hierarchy and clean, consistent UI',
-    text: 'Making the most important information and actions obvious, with alignment and consistency that feel trustworthy.',
+    line: 'The most important information and actions are always obvious.',
     icon: 'eye',
   },
   {
     title: 'Responsive design',
-    short: 'Responsive design for desktop and mobile',
-    text: 'Interfaces that hold up on desktop and mobile.',
+    line: 'Interfaces that hold up on desktop and mobile.',
     icon: 'devices',
   },
   {
     title: 'AI interaction thinking',
-    short: 'AI interactions with status, control and correction',
-    text: 'Status, feedback, user control and correction in AI-driven experiences.',
-    icon: 'message',
-  },
-];
-
-export const skills: { title: string; text: string; icon: IconName }[] = [
-  {
-    title: 'Information architecture',
-    text: 'Organizing features and content so users can find what matters.',
-    icon: 'sitemap',
-  },
-  {
-    title: 'Structure & flows',
-    text: 'Turning complex, multi-step processes into flows people can follow.',
-    icon: 'workflow',
-  },
-  {
-    title: 'Visual hierarchy',
-    text: 'Making the most important information and actions obvious.',
-    icon: 'eye',
-  },
-  {
-    title: 'Clean, consistent UI',
-    text: 'Alignment, visual rhythm and consistency that make a product feel trustworthy.',
-    icon: 'layout',
-  },
-  {
-    title: 'Responsive design',
-    text: 'Interfaces that hold up on desktop and mobile.',
-    icon: 'devices',
-  },
-  {
-    title: 'AI interaction thinking',
-    text: 'Status, feedback, user control and correction in AI-driven experiences.',
+    line: 'Clear status, feedback, control and correction around AI.',
     icon: 'message',
   },
 ];

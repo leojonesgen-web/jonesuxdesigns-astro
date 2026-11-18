@@ -2,32 +2,23 @@
 /**
  * Homepage sections in the agreed order:
  * Hero → Problems → Selected Work → About → How I Work → Light CTA → More Work → FAQ → Ways to Start → Final Contact
- * `about` switches between the current About and the two proposals (preview pages only).
  */
 import Hero from './Hero.astro';
 import Problems from './Problems.astro';
 import SelectedWork from './SelectedWork.astro';
 import About from './About.astro';
-import AboutA from './AboutA.astro';
-import AboutB from './AboutB.astro';
 import Process from './Process.astro';
 import LightCta from './LightCta.astro';
 import MoreWork from './MoreWork.astro';
 import Faq from './Faq.astro';
 import WaysToStart from './WaysToStart.astro';
 import FinalContact from './FinalContact.astro';
-
-interface Props {
-  about?: 'current' | 'a' | 'b';
-}
-
-const { about = 'current' } = Astro.props;
 ---
 
 <Hero />
 <Problems />
 <SelectedWork />
-{about === 'a' ? <AboutA /> : about === 'b' ? <AboutB /> : <About />}
+<About />
 <Process />
 <LightCta />
 <MoreWork />

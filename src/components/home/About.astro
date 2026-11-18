@@ -1,143 +1,164 @@
 ---
-/** About / Why Me: no portrait by design. Identity + approach on the left, strengths on the right. */
+/**
+ * About / Why work with me.
+ * Centred intro → split: photo placeholder (left) | secondary heading, short paragraph and four
+ * strengths as open rows (icon + title + one line) separated by hairline dividers (right).
+ */
 import SectionIntro from '../SectionIntro.astro';
+import PhotoPlaceholder from '../PhotoPlaceholder.astro';
 import Icon from '../Icon.astro';
-import { skills } from '../../data/content';
+import { strengths } from '../../data/content';
 ---
 
-<section class="section about" id="about" aria-labelledby="about-title">
-  <div class="container about__inner">
-    <div class="about__story">
-      <SectionIntro eyebrow="About me" title="Why work with me" id="about-title" />
-      <p class="about__lead">
-        I’m Leonard, a Product, UX and UI designer focused on early-stage consumer (B2C) AI products.
-      </p>
-      <p>
-        My work centres on making complex products understandable: organizing information,
-        structuring flows and designing clean interfaces people can use with confidence.
-      </p>
-      <p>
-        Early-stage products move fast, and features often ship before the experience has time to
-        mature. I help teams bring structure and clarity to what they’ve built, so users can
-        understand what the product does, what is happening and what to do next.
-      </p>
-    </div>
-
-    <div class="about__skills">
-      <h3 class="about__skills-title">Strengths I bring</h3>
-      <ul class="about__skills-grid">
-        {
-          skills.map((s) => (
-            <li class="skill">
-              <span class="skill__icon">
-                <Icon name={s.icon} size={22} />
-              </span>
-              <div>
-                <h4 class="skill__title">{s.title}</h4>
-                <p class="skill__text">{s.text}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ul>
+<section class="section about-split" id="about" aria-labelledby="about-title">
+  <div class="container">
+    <SectionIntro eyebrow="About me" title="Why work with me" id="about-title" align="center">
+      <p>I’m Leonard, a Product, UX and UI designer focused on early-stage consumer (B2C) AI products.</p>
+    </SectionIntro>
+    <div class="about-split__layout">
+      <div class="about-split__photo"><PhotoPlaceholder /></div>
+      <div class="about-split__content">
+        <h3 class="about-split__heading">Making complex AI products understandable</h3>
+        <p class="about-split__text">
+          I organize information, structure flows and design clean interfaces, so people understand
+          what the product does, what is happening and what to do next.
+        </p>
+        <ul class="strengths">
+          {
+            strengths.map((s) => (
+              <li class="strengths__item">
+                <span class="strengths__icon">
+                  <Icon name={s.icon} size={22} />
+                </span>
+                <div class="strengths__label">
+                  <h4 class="strengths__title">{s.title}</h4>
+                  <p class="strengths__line">{s.line}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <style>
-  .about {
+  .about-split {
     background: var(--color-surface);
     border-block: 1px solid var(--color-border);
   }
 
-  .about__inner {
+  .about-split__layout {
     display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
     gap: var(--space-8);
-    align-items: start;
+    align-items: center;
+    margin-top: var(--space-6);
   }
 
-  .about__story {
+  .about-split__photo {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .about-split__content {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-    max-width: 34em;
+    max-width: 580px;
   }
 
-  .about__lead {
-    margin-top: var(--space-2);
-    color: var(--color-ink);
+  .about-split__heading {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .about-split__text {
+    color: var(--color-text-muted);
     font-size: var(--fs-body-lg);
-    font-weight: 500;
   }
 
-  .about__skills-title {
-    margin-bottom: var(--space-3);
-    font-size: var(--fs-small);
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .about__skills-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-2);
-  }
-
-  .skill {
+  .strengths {
     display: flex;
-    gap: var(--space-3);
-    padding: var(--space-4);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
+    flex-direction: column;
+    margin-top: var(--space-4);
   }
 
-  .skill__icon {
+  .strengths__item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .strengths__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
-    background: var(--color-surface);
-    border: 1px solid var(--color-primary-tint-strong);
-    border-radius: 10px;
+    background: var(--color-primary-tint);
+    border-radius: 12px;
     color: var(--color-primary);
   }
 
-  .skill__icon :global(svg) {
+  .strengths__icon :global(svg) {
     stroke-width: 2;
   }
 
-  .skill__title {
-    font-size: 1.0625rem;
-    font-weight: 650;
+  /* Open rows: text block carries the hairline separator */
+  .strengths__label {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    min-height: 88px;
+    padding-block: var(--space-2);
+  }
+
+  .strengths__item:not(:last-child) .strengths__label {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .strengths__title {
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    font-weight: 600;
     letter-spacing: -0.01em;
   }
 
-  .skill__text {
-    margin-top: 2px;
+  .strengths__line {
     color: var(--color-text-muted);
     font-size: var(--fs-label);
     line-height: 1.5;
   }
 
   @media (max-width: 1024px) {
-    .about__inner {
+    .about-split__layout {
       grid-template-columns: 1fr;
       gap: var(--space-6);
     }
-  }
 
-  @media (max-width: 600px) {
-    .about__skills-grid {
-      grid-template-columns: 1fr;
+    .about-split__photo {
+      width: min(100%, 400px);
+      margin-inline: auto;
     }
 
-    .skill {
-      padding: var(--space-3);
+    .about-split__content {
+      max-width: 600px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .strengths__item {
+      gap: var(--space-3);
+    }
+
+    .strengths__label {
+      min-height: 76px;
     }
   }
 </style>

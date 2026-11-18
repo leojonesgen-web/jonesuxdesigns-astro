@@ -10,11 +10,9 @@ import { site } from '../data/site';
 interface Props {
   title?: string;
   description?: string;
-  /** Keep preview pages out of search results. */
-  noindex?: boolean;
 }
 
-const { title, description = site.description, noindex = false } = Astro.props;
+const { title, description = site.description } = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
@@ -27,7 +25,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
@@ -39,7 +36,6 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <slot name="banner" />
     <Header />
     <main id="main">
       <slot />

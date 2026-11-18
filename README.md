@@ -20,13 +20,13 @@ src/
   data/
     site.ts           Name, role, approved contact methods, navigation
     projects.ts       Selected + broader projects (canonical names, approved copy only)
-    content.ts        Problems, process steps, strengths/skills, ways to start, consultation, FAQ, assistant answers
+    content.ts        Problems, process steps, strengths, ways to start, consultation, FAQ, assistant answers
   layouts/BaseLayout.astro
   components/         Header, Footer, Wordmark (logo placeholder), PhotoPlaceholder, Button, Icon,
                       SectionIntro, ProjectCard, ProblemIllustration, ContactOptions, ContactDialog, Assistant
-  components/home/    HomePage (section order), Hero, Problems, SelectedWork, About (+ AboutA/AboutB
-                      proposals), Process, LightCta, MoreWork, Faq, WaysToStart, FinalContact
-  pages/              index, projects/[slug], 404, preview/about-a, preview/about-b (noindex)
+  components/home/    HomePage (section order), Hero, Problems, SelectedWork, About, Process,
+                      LightCta, MoreWork, Faq, WaysToStart, FinalContact
+  pages/              index, projects/[slug], 404
 ```
 
 ## Content rules
@@ -38,8 +38,6 @@ timelines, policies, availability or contact details that have not been supplied
 
 - **Logo:** `src/components/Wordmark.astro` is a temporary text wordmark.
 - **Photo:** `src/components/PhotoPlaceholder.astro` reserves the space for Leonard's real photograph
-  (Hero and About proposals).
-- **About:** two proposals at `/preview/about-a/` and `/preview/about-b/`; the homepage keeps the current
-  About until one is chosen.
+  (Hero and About).
 - **Project pages:** `/projects/<slug>/` show approved summaries only until case studies are written.
 - **Assistant:** a labelled prototype with prepared answers (no AI backend).
