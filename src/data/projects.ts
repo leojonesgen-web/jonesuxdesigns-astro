@@ -8,6 +8,11 @@ import primeRegent from '../assets/projects/prime-regent.png';
 import stellarTime from '../assets/projects/stellar-time.png';
 import nestStory from '../assets/projects/nest-story.png';
 
+/** Case-study presentation images, in display order (1440×1024 each). */
+const tripwiseGallery = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/tripwise/*.png', { eager: true }),
+).map((m) => m.default);
+
 export interface Project {
   /** URL segment: /projects/<slug>/ */
   slug: string;
@@ -20,6 +25,8 @@ export interface Project {
   /** Describes what the image shows, for screen readers. */
   imageAlt: string;
   group: 'selected' | 'broader';
+  /** Presentation images shown full width on the project page, in order. */
+  gallery?: ImageMetadata[];
 }
 
 export const projects: Project[] = [
@@ -32,6 +39,7 @@ export const projects: Project[] = [
     image: tripwise,
     imageAlt: 'TripWise trip-planning interface shown on a laptop screen',
     group: 'selected',
+    gallery: tripwiseGallery,
   },
   {
     slug: 'stepwise',
