@@ -128,7 +128,7 @@ export const projects: Project[] = [
     slug: 'nestory',
     title: 'Nestory',
     category: 'Landing Page Design',
-    summary: 'Landing page design.',
+    summary: 'Interior design, made more accessible.',
     image: nestory,
     imageAlt: 'Nestory landing page shown on a laptop screen',
     group: 'broader',
