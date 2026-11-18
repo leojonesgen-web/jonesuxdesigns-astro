@@ -22,6 +22,9 @@ const stepwiseGallery = slides(
 const filelensGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/filelens/*.png', { eager: true }),
 );
+const drivePointGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/drive-point/*.png', { eager: true }),
+);
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
 );
@@ -97,6 +100,7 @@ export const projects: Project[] = [
     image: drivePoint,
     imageAlt: 'Drive Point app screen on a phone',
     group: 'broader',
+    gallery: drivePointGallery,
   },
   {
     slug: 'prime-regent',
