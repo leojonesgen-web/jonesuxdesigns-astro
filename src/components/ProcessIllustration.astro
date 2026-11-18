@@ -1,0 +1,291 @@
+---
+/**
+ * How I Work illustrations: same visual language as ProblemIllustration
+ * (UI vignettes, shared palette, stroke weight and radii), one per process step.
+ */
+export type ProcessIllustrationName = 'understand' | 'structure' | 'design' | 'refine';
+
+interface Props {
+  name: ProcessIllustrationName;
+}
+
+const { name } = Astro.props;
+---
+
+<svg class="pi" viewBox="0 0 320 200" role="img" aria-hidden="true" focusable="false">
+  {
+    name === 'understand' && (
+      <g>
+        {/* Product screen being examined: a friction point found */}
+        <rect class="win" x="24" y="30" width="170" height="140" rx="12" />
+        <rect class="bar-strong" x="40" y="48" width="70" height="8" rx="4" />
+        <rect class="bar" x="40" y="66" width="120" height="6" rx="3" />
+        <rect class="bar" x="40" y="78" width="96" height="6" rx="3" />
+        <rect class="tint" x="40" y="94" width="138" height="34" rx="8" />
+        <rect class="pri" x="40" y="140" width="60" height="16" rx="8" />
+        <circle class="lens" cx="150" cy="112" r="28" />
+        <circle class="err" cx="150" cy="112" r="7" />
+        <path class="handle" d="M170 132l18 18" />
+        {/* The user */}
+        <rect class="win" x="214" y="40" width="84" height="66" rx="12" />
+        <circle class="tint" cx="238" cy="64" r="12" />
+        <circle class="steel" cx="238" cy="61" r="4" />
+        <path class="steel-s" d="M231 71.5c1.4-3 4-4.4 7-4.4s5.6 1.4 7 4.4" />
+        <rect class="bar-strong" x="256" y="57" width="30" height="6" rx="3" />
+        <rect class="bar" x="256" y="69" width="22" height="6" rx="3" />
+        <rect class="bar" x="226" y="88" width="60" height="6" rx="3" />
+        {/* The goal */}
+        <circle class="win-pri" cx="256" cy="146" r="22" />
+        <circle class="tint" cx="256" cy="146" r="13" />
+        <circle class="pri" cx="256" cy="146" r="5" />
+      </g>
+    )
+  }
+  {
+    name === 'structure' && (
+      <g>
+        {/* Information architecture */}
+        <rect class="pri" x="130" y="18" width="60" height="26" rx="8" />
+        <rect class="white" x="142" y="28" width="36" height="6" rx="3" />
+        <path class="conn" d="M160 44v16M70 60h180M70 60v14M160 60v14M250 60v14" />
+        <rect class="win" x="40" y="74" width="60" height="26" rx="8" />
+        <rect class="bar-strong" x="52" y="84" width="36" height="6" rx="3" />
+        <rect class="win" x="130" y="74" width="60" height="26" rx="8" />
+        <rect class="bar-strong" x="142" y="84" width="36" height="6" rx="3" />
+        <rect class="win" x="220" y="74" width="60" height="26" rx="8" />
+        <rect class="bar-strong" x="232" y="84" width="36" height="6" rx="3" />
+        <path class="conn" d="M70 100v10M160 100v10" />
+        <rect class="win" x="48" y="110" width="44" height="18" rx="6" />
+        <rect class="bar" x="56" y="116" width="28" height="5" rx="2.5" />
+        <rect class="win" x="138" y="110" width="44" height="18" rx="6" />
+        <rect class="bar" x="146" y="116" width="28" height="5" rx="2.5" />
+        {/* User flow */}
+        <rect class="tint" x="40" y="152" width="64" height="24" rx="12" />
+        <circle class="pri" cx="55" cy="164" r="4" />
+        <rect class="bar-strong" x="65" y="161" width="30" height="6" rx="3" />
+        <path class="arrow" d="M110 164h20M124 158l6 6-6 6" />
+        <rect class="tint" x="138" y="152" width="64" height="24" rx="12" />
+        <circle class="pri" cx="153" cy="164" r="4" />
+        <rect class="bar-strong" x="163" y="161" width="30" height="6" rx="3" />
+        <path class="arrow" d="M208 164h20M222 158l6 6-6 6" />
+        <rect class="win-pri" x="236" y="152" width="64" height="24" rx="12" />
+        <circle class="pri" cx="251" cy="164" r="4" />
+        <rect class="pri" x="261" y="161" width="30" height="6" rx="3" />
+      </g>
+    )
+  }
+  {
+    name === 'design' && (
+      <g>
+        {/* Desktop interface with clear hierarchy */}
+        <rect class="win" x="24" y="24" width="184" height="152" rx="14" />
+        <circle class="bar" cx="40" cy="40" r="3" />
+        <circle class="bar" cx="50" cy="40" r="3" />
+        <circle class="bar" cx="60" cy="40" r="3" />
+        <rect class="ink" x="40" y="56" width="90" height="9" rx="4.5" />
+        <rect class="bar" x="40" y="72" width="130" height="6" rx="3" />
+        <rect class="tint" x="40" y="88" width="152" height="46" rx="8" />
+        <rect class="pri" x="52" y="101" width="50" height="7" rx="3.5" />
+        <rect class="white" x="52" y="115" width="80" height="5" rx="2.5" />
+        <rect class="pri" x="40" y="146" width="64" height="16" rx="8" />
+        <rect class="bar" x="112" y="151" width="40" height="6" rx="3" />
+        <path class="ink" d="M92 150l13 5.5-5.4 2 3.8 7.4-3 1.5-3.8-7.4-4.4 3.8z" />
+        {/* Palette */}
+        <circle class="pri" cx="236" cy="34" r="7" />
+        <circle class="steel" cx="254" cy="34" r="7" />
+        <circle class="tint" cx="272" cy="34" r="7" />
+        <circle class="ink" cx="290" cy="34" r="7" />
+        {/* Mobile version */}
+        <rect class="win" x="222" y="56" width="62" height="114" rx="12" />
+        <rect class="bar-strong" x="243" y="64" width="20" height="4" rx="2" />
+        <rect class="ink" x="232" y="78" width="34" height="6" rx="3" />
+        <rect class="tint" x="232" y="90" width="42" height="30" rx="6" />
+        <rect class="pri" x="232" y="130" width="42" height="12" rx="6" />
+        <rect class="bar" x="232" y="150" width="30" height="5" rx="2.5" />
+      </g>
+    )
+  }
+  {
+    name === 'refine' && (
+      <g>
+        {/* Before: an issue */}
+        <rect class="win" x="20" y="34" width="104" height="96" rx="12" />
+        <rect class="bar-strong" x="32" y="50" width="56" height="7" rx="3.5" />
+        <rect class="bar" x="32" y="64" width="78" height="6" rx="3" />
+        <rect class="bar" x="32" y="76" width="64" height="6" rx="3" />
+        <rect class="bar" x="32" y="88" width="72" height="14" rx="5" />
+        <rect class="bar-strong" x="32" y="110" width="40" height="10" rx="5" />
+        <circle class="err" cx="112" cy="40" r="9" />
+        {/* Iterate */}
+        <path class="arrow" d="M140 70c10-16 34-18 46-2M180 62l6 6-1 8" />
+        <path class="arrow" d="M186 98c-10 16-34 18-46 2M146 106l-6-6 1-8" />
+        {/* After: improved */}
+        <rect class="win" x="196" y="34" width="104" height="96" rx="12" />
+        <rect class="ink" x="208" y="50" width="52" height="8" rx="4" />
+        <rect class="bar" x="208" y="64" width="72" height="6" rx="3" />
+        <rect class="tint" x="208" y="78" width="80" height="24" rx="6" />
+        <rect class="pri" x="208" y="110" width="44" height="12" rx="6" />
+        <circle class="ok-bg" cx="292" cy="40" r="12" />
+        <path class="ok" d="M286 40l4 4 8-8" />
+        {/* Feedback */}
+        <rect class="win" x="58" y="148" width="126" height="36" rx="12" />
+        <circle class="tint" cx="77" cy="166" r="9" />
+        <rect class="bar-strong" x="94" y="158" width="72" height="6" rx="3" />
+        <rect class="bar" x="94" y="170" width="48" height="5" rx="2.5" />
+        <rect class="tint" x="194" y="154" width="70" height="26" rx="13" />
+        <rect class="pri" x="208" y="164" width="42" height="6" rx="3" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .pi {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .win {
+    fill: var(--color-surface);
+    stroke: var(--color-border);
+    stroke-width: 1.5;
+  }
+
+  .win-pri {
+    fill: var(--color-surface);
+    stroke: var(--color-primary);
+    stroke-width: 2;
+  }
+
+  .bar {
+    fill: var(--color-border);
+  }
+
+  .bar-strong {
+    fill: var(--color-border-strong);
+  }
+
+  .ink {
+    fill: var(--color-ink);
+  }
+
+  .pri {
+    fill: var(--color-primary);
+  }
+
+  .pri-s {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .tint {
+    fill: var(--color-primary-tint-strong);
+  }
+
+  .white {
+    fill: #fff;
+  }
+
+  .steel {
+    fill: var(--color-steel);
+  }
+
+  .steel-s {
+    fill: none;
+    stroke: var(--color-steel);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .ring {
+    fill: none;
+    stroke: var(--color-steel);
+    stroke-width: 1.5;
+    opacity: 0.45;
+  }
+
+  .tick {
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .dash {
+    fill: none;
+    stroke: var(--color-border-strong);
+    stroke-width: 3;
+    stroke-dasharray: 4 5;
+    stroke-linecap: round;
+  }
+
+  .conn {
+    fill: none;
+    stroke: var(--color-border-strong);
+    stroke-width: 2;
+  }
+
+  .dashed {
+    stroke-dasharray: 4 5;
+  }
+
+  .exit {
+    fill: none;
+    stroke: var(--color-error-fg);
+    stroke-width: 2;
+    stroke-dasharray: 5 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .arrow {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .q {
+    fill: var(--color-primary);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .ok-bg {
+    fill: var(--color-success-bg);
+  }
+
+  .err {
+    fill: var(--color-error-bg);
+    stroke: var(--color-error-fg);
+    stroke-width: 1.5;
+  }
+
+  .lens {
+    fill: #fff;
+    fill-opacity: 0.35;
+    stroke: var(--color-primary);
+    stroke-width: 3;
+  }
+
+  .handle {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 6;
+    stroke-linecap: round;
+  }
+
+  .ok {
+    fill: none;
+    stroke: var(--color-success-fg);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

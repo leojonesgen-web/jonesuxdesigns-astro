@@ -4,10 +4,7 @@
  */
 import type { IconName } from '../components/Icon.astro';
 import type { ProblemIllustrationName } from '../components/ProblemIllustration.astro';
-import understandImg from '../assets/process/understand.png';
-import structureImg from '../assets/process/structure.png';
-import designImg from '../assets/process/design.png';
-import refineImg from '../assets/process/test.png';
+import type { ProcessIllustrationName } from '../components/ProcessIllustration.astro';
 
 export const problems: { title: string; text: string; illustration: ProblemIllustrationName }[] = [
   {
@@ -32,7 +29,13 @@ export const problems: { title: string; text: string; illustration: ProblemIllus
   },
 ];
 
-export const processSteps = [
+export const processSteps: {
+  id: ProcessIllustrationName;
+  label: string;
+  title: string;
+  text: string;
+  focus: string[];
+}[] = [
   {
     id: 'understand',
     label: 'Understand',
@@ -43,7 +46,6 @@ export const processSteps = [
       'Where users get stuck today',
       'What a good outcome looks like at this stage',
     ],
-    image: understandImg,
   },
   {
     id: 'structure',
@@ -55,7 +57,6 @@ export const processSteps = [
       'User flows, including where AI steps in and where people stay in control',
       'What users need to see, decide or control at each step',
     ],
-    image: structureImg,
   },
   {
     id: 'design',
@@ -67,7 +68,6 @@ export const processSteps = [
       'Interaction states such as loading, progress, errors and corrections',
       'Responsive layouts for desktop and mobile',
     ],
-    image: designImg,
   },
   {
     id: 'refine',
@@ -79,7 +79,6 @@ export const processSteps = [
       'Feedback from your team and, where possible, real users',
       'Focused iterations on what matters most',
     ],
-    image: refineImg,
   },
 ];
 
