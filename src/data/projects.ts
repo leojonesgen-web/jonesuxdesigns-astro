@@ -6,7 +6,7 @@ import filelens from '../assets/projects/filelens.png';
 import drivePoint from '../assets/projects/drive-point.png';
 import primeRegent from '../assets/projects/prime-regent.png';
 import stellarTime from '../assets/projects/stellar-time.png';
-import nestStory from '../assets/projects/nest-story.png';
+import nestory from '../assets/projects/nestory.png';
 
 /** Case-study presentation images, ordered by file name 01, 02, … */
 const slides = (modules: Record<string, { default: ImageMetadata }>) =>
@@ -25,8 +25,8 @@ const filelensGallery = slides(
 const drivePointGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/drive-point/*.png', { eager: true }),
 );
-const nestStoryGallery = slides(
-  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/nest-story/*.png', { eager: true }),
+const nestoryGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/nestory/*.png', { eager: true }),
 );
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
@@ -125,14 +125,14 @@ export const projects: Project[] = [
     group: 'broader',
   },
   {
-    slug: 'nest-story',
-    title: 'Nest Story',
+    slug: 'nestory',
+    title: 'Nestory',
     category: 'Landing Page Design',
     summary: 'Landing page design.',
-    image: nestStory,
-    imageAlt: 'Nest Story landing page shown on a laptop screen',
+    image: nestory,
+    imageAlt: 'Nestory landing page shown on a laptop screen',
     group: 'broader',
-    gallery: nestStoryGallery,
+    gallery: nestoryGallery,
   },
 ];
 
