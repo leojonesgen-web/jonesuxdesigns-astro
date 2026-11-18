@@ -1,0 +1,179 @@
+---
+/**
+ * About / Why work with me: shared structure for both proposals.
+ * Centred intro → split: photo placeholder (left) | secondary heading, short paragraph and
+ * four strengths stacked in one column (right).
+ *  - variant "contained": each strength sits in its own subtle container that hugs its content.
+ *  - variant "open": no containers; rows separated by hairline dividers and generous spacing.
+ */
+import AboutIntro from './AboutIntro.astro';
+import PhotoPlaceholder from '../PhotoPlaceholder.astro';
+import Icon from '../Icon.astro';
+import { strengths } from '../../data/content';
+
+interface Props {
+  variant: 'contained' | 'open';
+}
+
+const { variant } = Astro.props;
+---
+
+<section class="section about-split" id="about" aria-labelledby="about-title" data-about-version={variant === 'contained' ? 'A' : 'B'}>
+  <div class="container">
+    <AboutIntro />
+    <div class="about-split__layout">
+      <div class="about-split__photo"><PhotoPlaceholder /></div>
+      <div class="about-split__content">
+        <h3 class="about-split__heading">Making complex AI products understandable</h3>
+        <p class="about-split__text">
+          I organize information, structure flows and design clean interfaces, so people understand
+          what the product does, what is happening and what to do next.
+        </p>
+        <ul class:list={['strengths', `strengths--${variant}`]}>
+          {
+            strengths.map((s) => (
+              <li class="strengths__item">
+                <span class="strengths__icon">
+                  <Icon name={s.icon} size={22} />
+                </span>
+                <span class="strengths__label">{s.title}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-split {
+    background: var(--color-surface);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .about-split__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 460px) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: center;
+    margin-top: var(--space-6);
+  }
+
+  .about-split__photo {
+    width: 100%;
+    max-width: 460px;
+  }
+
+  .about-split__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 580px;
+  }
+
+  .about-split__heading {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .about-split__text {
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-lg);
+  }
+
+  .strengths {
+    display: flex;
+    flex-direction: column;
+    margin-top: var(--space-4);
+  }
+
+  .strengths__item {
+    display: flex;
+    align-items: center;
+  }
+
+  .strengths__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    color: var(--color-primary);
+  }
+
+  .strengths__icon :global(svg) {
+    stroke-width: 2;
+  }
+
+  .strengths__label {
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  /* Version A: subtle containers that hug their content (no stretching to fill space) */
+  .strengths--contained {
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .strengths--contained .strengths__item {
+    gap: var(--space-2);
+    padding: 8px 20px 8px 8px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .strengths--contained .strengths__icon {
+    background: var(--color-surface);
+    border: 1px solid var(--color-primary-tint-strong);
+  }
+
+  /* Version B: open rows, one continuous composition with hairline separators */
+  .strengths--open .strengths__item {
+    gap: var(--space-4);
+  }
+
+  .strengths--open .strengths__icon {
+    background: var(--color-primary-tint);
+  }
+
+  .strengths--open .strengths__label {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    min-height: 80px;
+  }
+
+  .strengths--open .strengths__item:not(:last-child) .strengths__label {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 1024px) {
+    .about-split__layout {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .about-split__photo {
+      width: min(100%, 400px);
+      margin-inline: auto;
+    }
+
+    .about-split__content {
+      max-width: 600px;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .strengths--open .strengths__label {
+      min-height: 64px;
+    }
+  }
+</style>
