@@ -50,7 +50,7 @@ const { project } = Astro.props;
               class="gallery__image"
               src={img}
               alt={`${project.title} case study, slide ${i + 1} of ${project.gallery!.length}`}
-              widths={[720, 1080, 1440, 2160].filter((w) => w <= img.width).concat(img.width < 2160 ? [img.width] : [])}
+              widths={[720, 1080, 1440, 2160, 2480].filter((w) => w < img.width).concat([Math.min(img.width, 2560)])}
               sizes="(max-width: 1288px) calc(100vw - 48px), 1240px"
               loading={i === 0 ? 'eager' : 'lazy'}
             />
