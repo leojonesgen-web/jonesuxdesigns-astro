@@ -25,6 +25,9 @@ const filelensGallery = slides(
 const drivePointGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/drive-point/*.png', { eager: true }),
 );
+const nestStoryGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/nest-story/*.png', { eager: true }),
+);
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
 );
@@ -101,6 +104,7 @@ export const projects: Project[] = [
     imageAlt: 'Drive Point app screen on a phone',
     group: 'broader',
     gallery: drivePointGallery,
+    galleryStroke: '#B8C2D0',
   },
   {
     slug: 'prime-regent',
@@ -128,6 +132,7 @@ export const projects: Project[] = [
     image: nestStory,
     imageAlt: 'Nest Story landing page shown on a laptop screen',
     group: 'broader',
+    gallery: nestStoryGallery,
   },
 ];
 
