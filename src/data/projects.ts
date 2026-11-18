@@ -5,7 +5,7 @@ import pawcare from '../assets/projects/pawcare.png';
 import filelens from '../assets/projects/filelens.png';
 import drivePoint from '../assets/projects/drive-point.png';
 import primeRagent from '../assets/projects/prime-ragent.png';
-import stellarTime from '../assets/projects/stellar-time.png';
+import stellanTime from '../assets/projects/stellan-time.png';
 import nestory from '../assets/projects/nestory.png';
 
 /** Case-study presentation images, ordered by file name 01, 02, … */
@@ -30,6 +30,9 @@ const nestoryGallery = slides(
 );
 const primeRagentGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/prime-ragent/*.png', { eager: true }),
+);
+const stellanTimeGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/stellan-time/*.png', { eager: true }),
 );
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
@@ -120,13 +123,14 @@ export const projects: Project[] = [
     gallery: primeRagentGallery,
   },
   {
-    slug: 'stellar-time',
-    title: 'Stellar Time',
+    slug: 'stellan-time',
+    title: 'Stellan Time',
     category: 'Landing Page Design',
-    summary: 'Landing page design.',
-    image: stellarTime,
-    imageAlt: 'Stellar Time landing page shown on a laptop screen',
+    summary: 'Time, thoughtfully presented.',
+    image: stellanTime,
+    imageAlt: 'Stellan Time landing page shown on a laptop screen',
     group: 'broader',
+    gallery: stellanTimeGallery,
   },
   {
     slug: 'nestory',
