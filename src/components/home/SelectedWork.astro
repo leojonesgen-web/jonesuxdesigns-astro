@@ -1,0 +1,50 @@
+---
+/** Selected Work: the three primary projects (strongest evidence, shown early). */
+import SectionIntro from '../SectionIntro.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { selectedProjects } from '../../data/projects';
+---
+
+<section class="section selected" id="work" aria-labelledby="work-title">
+  <div class="container">
+    <SectionIntro eyebrow="Selected work" title="Product design work" id="work-title">
+      <p>Consumer-facing product work, from trip planning and pet care to online shopping.</p>
+    </SectionIntro>
+
+    <ul class="selected__grid">
+      {
+        selectedProjects.map((project) => (
+          <li>
+            <ProjectCard project={project} />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .selected__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  @media (max-width: 1024px) {
+    .selected__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .selected__grid > li:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .selected__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

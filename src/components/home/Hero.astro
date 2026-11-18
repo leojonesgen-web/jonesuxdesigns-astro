@@ -1,15 +1,12 @@
 ---
 /**
- * Hero: typography-led split. The visual side shows the three selected projects
- * (real work) rather than a portrait or invented interface.
+ * Hero: typography-led split. The visual side is reserved for Leonard's real photograph;
+ * until it is supplied, a clearly labelled placeholder holds the same space.
  */
-import { Image } from 'astro:assets';
 import Button from '../Button.astro';
 import Icon from '../Icon.astro';
-import { selectedProjects } from '../../data/projects';
+import PhotoPlaceholder from '../PhotoPlaceholder.astro';
 import { contactHref } from '../../data/site';
-
-const [first, second, third] = selectedProjects;
 ---
 
 <section class="hero" id="top" aria-labelledby="hero-title">
@@ -29,20 +26,9 @@ const [first, second, third] = selectedProjects;
       </div>
     </div>
 
-    <figure class="hero__work">
-      <div class="hero__shot hero__shot--a" aria-hidden="true">
-        <Image src={first.image} alt="" widths={[480, 720]} sizes="(max-width: 900px) 60vw, 380px" loading="eager" />
-      </div>
-      <div class="hero__shot hero__shot--b" aria-hidden="true">
-        <Image src={third.image} alt="" widths={[400, 640]} sizes="(max-width: 900px) 50vw, 300px" loading="eager" />
-      </div>
-      <div class="hero__shot hero__shot--c" aria-hidden="true">
-        <Image src={second.image} alt="" widths={[400, 640]} sizes="(max-width: 900px) 50vw, 320px" loading="eager" />
-      </div>
-      <figcaption class="hero__caption">
-        Selected work: {first.title}, {third.title}, {second.title}
-      </figcaption>
-    </figure>
+    <div class="hero__visual">
+      <PhotoPlaceholder />
+    </div>
   </div>
 </section>
 
@@ -91,54 +77,11 @@ const [first, second, third] = selectedProjects;
     margin-top: var(--space-1);
   }
 
-  /* Overlapping stack of real project images */
-  .hero__work {
-    position: relative;
-    aspect-ratio: 1 / 0.86;
-  }
-
-  .hero__shot {
-    position: absolute;
-    display: block;
-    overflow: hidden;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-raised);
-  }
-
-  .hero__shot :global(img) {
+  /* Reserved for the real photograph (placeholder for now) */
+  .hero__visual {
+    justify-self: end;
     width: 100%;
-    height: auto;
-  }
-
-  .hero__shot--a {
-    top: 0;
-    right: 0;
-    width: 76%;
-    z-index: 1;
-  }
-
-  .hero__shot--b {
-    bottom: 6%;
-    left: 0;
-    width: 58%;
-    z-index: 2;
-  }
-
-  .hero__shot--c {
-    right: 4%;
-    bottom: 0;
-    width: 46%;
-    z-index: 3;
-  }
-
-  .hero__caption {
-    position: absolute;
-    top: calc(100% + var(--space-2));
-    right: 0;
-    color: var(--color-text-muted);
-    font-size: var(--fs-small);
+    max-width: 440px;
   }
 
   @media (max-width: 900px) {
@@ -155,14 +98,15 @@ const [first, second, third] = selectedProjects;
       max-width: 16ch;
     }
 
-    .hero__work {
-      width: min(100%, 560px);
+    .hero__visual {
+      justify-self: start;
+      max-width: 400px;
     }
   }
 
   /* Mobile: the hero is typography-only; the project visual is hidden. */
   @media (max-width: 640px) {
-    .hero__work {
+    .hero__visual {
       display: none;
     }
   }

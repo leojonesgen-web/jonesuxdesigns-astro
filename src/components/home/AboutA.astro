@@ -1,0 +1,131 @@
+---
+/**
+ * About PROPOSAL A: photo + short contextual copy + compact 2×2 strengths (icon + short text).
+ */
+import AboutIntro from './AboutIntro.astro';
+import PhotoPlaceholder from '../PhotoPlaceholder.astro';
+import Icon from '../Icon.astro';
+import { strengths } from '../../data/content';
+---
+
+<section class="section about-a" id="about" aria-labelledby="about-title" data-about-version="A">
+  <div class="container">
+    <AboutIntro />
+    <div class="about-a__split">
+      <div class="about-a__photo"><PhotoPlaceholder /></div>
+      <div class="about-a__content">
+        <h3 class="about-a__heading">Making complex AI products understandable</h3>
+        <p class="about-a__text">
+          I organize information, structure flows and design clean interfaces, so people understand
+          what the product does, what is happening and what to do next.
+        </p>
+        <ul class="about-a__grid">
+          {
+            strengths.map((s) => (
+              <li class="strength">
+                <span class="strength__icon"><Icon name={s.icon} size={22} /></span>
+                <span class="strength__text">{s.short}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about-a {
+    background: var(--color-surface);
+    border-block: 1px solid var(--color-border);
+  }
+
+  .about-a__split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: var(--space-8);
+    align-items: center;
+    margin-top: var(--space-6);
+  }
+
+  .about-a__photo {
+    max-width: 440px;
+  }
+
+  .about-a__content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .about-a__heading {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .about-a__text {
+    max-width: 52ch;
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-lg);
+  }
+
+  .about-a__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+  }
+
+  /* Deliberately lightweight: icon + short text, subtle container */
+  .strength {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+  }
+
+  .strength__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    background: var(--color-surface);
+    border: 1px solid var(--color-primary-tint-strong);
+    border-radius: 10px;
+    color: var(--color-primary);
+  }
+
+  .strength__icon :global(svg) {
+    stroke-width: 2;
+  }
+
+  .strength__text {
+    color: var(--color-ink);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  @media (max-width: 1024px) {
+    .about-a__split {
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    .about-a__photo {
+      width: min(100%, 400px);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .about-a__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

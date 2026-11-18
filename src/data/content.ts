@@ -3,31 +3,32 @@
  * Do not add facts, metrics, timelines or policies that haven't been approved.
  */
 import type { IconName } from '../components/Icon.astro';
+import type { ProblemIllustrationName } from '../components/ProblemIllustration.astro';
 import understandImg from '../assets/process/understand.png';
 import structureImg from '../assets/process/structure.png';
 import designImg from '../assets/process/design.png';
 import refineImg from '../assets/process/test.png';
 
-export const problems: { title: string; text: string; icon: IconName }[] = [
+export const problems: { title: string; text: string; illustration: ProblemIllustrationName }[] = [
   {
     title: 'Onboarding & activation',
     text: 'New users don’t quickly see what the product can do for them, get stuck setting it up, or leave before their first meaningful result.',
-    icon: 'play',
+    illustration: 'onboarding',
   },
   {
     title: 'Complex AI workflows',
     text: 'Users get lost in multi-step AI processes: where they are, what is happening and what to do next.',
-    icon: 'workflow',
+    illustration: 'workflow',
   },
   {
     title: 'Information & product clarity',
     text: 'Important information, features and actions are poorly organized or prioritized.',
-    icon: 'layers',
+    illustration: 'clarity',
   },
   {
     title: 'AI behavior & user control',
     text: 'Users don’t understand what the AI is doing or why, can’t easily steer or correct it, and don’t know how to recover when it gets something wrong.',
-    icon: 'sliders',
+    illustration: 'control',
   },
 ];
 
@@ -82,6 +83,34 @@ export const processSteps = [
   },
 ];
 
+/** About proposals: the six existing skills condensed into four (no new claims). */
+export const strengths: { title: string; short: string; text: string; icon: IconName }[] = [
+  {
+    title: 'Clear structure',
+    short: 'Clear structure and information architecture',
+    text: 'Organizing features, content and multi-step flows so people can find what matters and follow along.',
+    icon: 'sitemap',
+  },
+  {
+    title: 'Visual hierarchy & clean UI',
+    short: 'Strong visual hierarchy and clean, consistent UI',
+    text: 'Making the most important information and actions obvious, with alignment and consistency that feel trustworthy.',
+    icon: 'eye',
+  },
+  {
+    title: 'Responsive design',
+    short: 'Responsive design for desktop and mobile',
+    text: 'Interfaces that hold up on desktop and mobile.',
+    icon: 'devices',
+  },
+  {
+    title: 'AI interaction thinking',
+    short: 'AI interactions with status, control and correction',
+    text: 'Status, feedback, user control and correction in AI-driven experiences.',
+    icon: 'message',
+  },
+];
+
 export const skills: { title: string; text: string; icon: IconName }[] = [
   {
     title: 'Information architecture',
@@ -115,24 +144,35 @@ export const skills: { title: string; text: string; icon: IconName }[] = [
   },
 ];
 
-export const packages = [
+/**
+ * Ways to Start: approachable entry points, ordered small → broader.
+ * Pricing is shown as "starting from" (lower bound of the previously approved ranges);
+ * final scope and price are agreed together.
+ */
+export const waysToStart = [
   {
-    id: 'ux-review',
-    name: 'UX Review & Direction',
-    price: 'From €250–€400',
-    text: 'For an existing AI product that needs professional UX/UI review and clearer product direction. The engagement can cover important friction points, information hierarchy, onboarding and key user flows, usability and product clarity, followed by prioritized recommendations.',
+    id: 'ux-clarity-review',
+    step: '01',
+    tag: 'Smallest first step',
+    name: 'UX Clarity Review',
+    text: 'A focused review of one important screen, flow or product experience. I identify friction, unclear decisions and UX problems, and point out clear opportunities to improve clarity and usability. An easy way to try working together without committing to a large project.',
+    from: 'Starting from €250',
   },
   {
-    id: 'focused-flow',
+    id: 'focused-product-flow',
+    step: '02',
+    tag: 'One important journey',
     name: 'Focused Product Flow',
-    price: 'From €600–€900',
-    text: 'For improving or designing one meaningful product area, such as onboarding/activation, AI setup and personalization, a core AI interaction, user control, feedback and correction, error recovery, or another important flow. It can include UX structure, flow thinking, UI design and relevant interaction states.',
+    text: 'A more substantial engagement focused on one important product journey, such as onboarding, activation, an important AI interaction or another critical product flow. The goal is to improve its structure, UX, interaction and interface.',
+    from: 'Starting from €600',
   },
   {
-    id: 'sprint',
-    name: 'Product UX/UI Sprint',
-    price: 'From €1,200–€1,800',
-    text: 'For a broader product challenge involving several connected screens or flows and deeper Product/UX/UI work. The exact scope should adapt to the product and problem rather than being defined by a rigid screen count.',
+    id: 'product-design-sprint',
+    step: '03',
+    tag: 'Broader engagement',
+    name: 'Product Design Sprint',
+    text: 'A broader engagement for an early-stage product that needs several connected flows, a more substantial UX/UI direction, or a larger product-design intervention than a single flow.',
+    from: 'Starting from €1,200',
   },
 ];
 
@@ -150,19 +190,19 @@ export const faqs = [
   },
   {
     q: 'Do you work on existing products or new ones?',
-    a: 'Both. A UX Review & Direction looks at an existing product. A Focused Product Flow can improve an existing area or design a new one. A Product UX/UI Sprint covers a broader challenge across several connected screens or flows.',
+    a: 'Both. A UX Clarity Review looks at one important screen or flow in an existing product. A Focused Product Flow can improve an existing journey or design a new one. A Product Design Sprint covers a broader challenge across several connected flows.',
   },
   {
-    q: 'Are the package prices fixed?',
-    a: 'No. These packages are starting points, not rigid scopes. The engagement can be adjusted around the product, priorities, stage and actual problem, and scope and pricing remain open to discussion.',
+    q: 'Are the prices fixed?',
+    a: 'No. The ways to start are starting points, not rigid scopes, and the prices shown are where they start. The engagement can be adjusted around the product, priorities, stage and actual problem, and scope and pricing remain open to discussion.',
   },
   {
     q: 'How do we get started?',
     a: 'With a complimentary initial UX consultation: a short conversation/review to understand your product, identify the main UX problem and decide whether working together makes sense. If you go ahead, scope and price are discussed based on your product.',
   },
   {
-    q: 'Does clicking Contact on a package commit me to anything?',
-    a: 'No. It only starts a conversation. It doesn’t book, purchase or commit either of us to the package or the displayed price.',
+    q: 'Does clicking Contact on one of the ways to start commit me to anything?',
+    a: 'No. It only starts a conversation. It doesn’t book, purchase or commit either of us to that option or the displayed price.',
   },
   {
     q: 'How can I contact you?',
@@ -206,11 +246,11 @@ export const assistantTopics = [
   },
   {
     id: 'pricing',
-    question: 'What are the packages and prices?',
-    keywords: ['price', 'prices', 'pricing', 'cost', 'costs', 'how much', 'package', 'packages', 'budget', 'rate', 'rates', '€'],
+    question: 'How can we start, and what does it cost?',
+    keywords: ['price', 'prices', 'pricing', 'cost', 'costs', 'how much', 'package', 'packages', 'budget', 'rate', 'rates', '€', 'ways to start', 'review', 'sprint'],
     answer:
-      'UX Review & Direction from €250–€400, Focused Product Flow from €600–€900 and Product UX/UI Sprint from €1,200–€1,800. These are starting points, not rigid scopes.',
-    link: { label: 'See the packages', href: '#packages' },
+      'There are three ways to start: a UX Clarity Review (from €250), a Focused Product Flow (from €600) and a Product Design Sprint (from €1,200). They are starting points, not rigid scopes.',
+    link: { label: 'See ways to start', href: '#packages' },
   },
   {
     id: 'start',

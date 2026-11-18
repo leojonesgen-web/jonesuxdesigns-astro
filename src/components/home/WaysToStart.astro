@@ -1,0 +1,211 @@
+---
+/**
+ * Working Together / Ways to Start: approachable entry points (small → broader),
+ * with light "starting from" pricing, plus the complimentary initial consultation.
+ * Contact opens the shared contact dialog; it never books or commits.
+ */
+import SectionIntro from '../SectionIntro.astro';
+import Button from '../Button.astro';
+import { consultation, waysToStart } from '../../data/content';
+---
+
+<section class="section ways" id="packages" aria-labelledby="ways-title">
+  <div class="container">
+    <SectionIntro eyebrow="Working together" title="Ways to start" id="ways-title">
+      <p>
+        A few approachable ways to start working together. They are starting points, not rigid
+        scopes. The engagement can be adjusted around the product, priorities, stage and actual
+        problem.
+      </p>
+    </SectionIntro>
+
+    <ol class="ways__grid">
+      {
+        waysToStart.map((w) => (
+          <li class="way">
+            <div class="way__top">
+              <span class="way__step">{w.step}</span>
+              <span class="way__tag">{w.tag}</span>
+            </div>
+            <h3 class="way__name">{w.name}</h3>
+            <p class="way__text">{w.text}</p>
+            <div class="way__foot">
+              <p class="way__from">{w.from}</p>
+              <Button
+                variant="secondary"
+                data-contact-intent={`the ${w.name}`}
+                data-contact-heading={`Interested in the ${w.name}?`}
+                aria-label={`Contact about ${w.name}`}
+              >
+                Contact
+              </Button>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <p class="ways__note">
+      Prices show where each option starts; final scope and price are agreed together based on your
+      product. Clicking Contact only starts a conversation; it doesn’t book or commit either of us to
+      anything.
+    </p>
+
+    <div class="offer">
+      <div class="offer__copy">
+        <p class="offer__label">Before anything else</p>
+        <h3 class="offer__title">{consultation.name}</h3>
+        <p class="offer__text">{consultation.text}</p>
+      </div>
+      <Button
+        variant="primary"
+        data-contact-intent="a complimentary initial UX consultation"
+        data-contact-heading="Interested in a complimentary initial UX consultation?"
+      >
+        Contact
+      </Button>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Follows the FAQ on the same background. */
+  .ways {
+    padding-top: 0;
+  }
+
+  .ways__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+
+  .way {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+  }
+
+  .way__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-bottom: var(--space-1);
+  }
+
+  .way__step {
+    color: var(--color-steel);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Informational tag: compact stroke pill */
+  .way__tag {
+    padding: 3px 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-muted);
+    font-size: 0.8125rem;
+    font-weight: 500;
+  }
+
+  .way__name {
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+  }
+
+  .way__text {
+    flex: 1;
+    color: var(--color-text-muted);
+    font-size: var(--fs-label);
+  }
+
+  .way__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .way__from {
+    color: var(--color-ink);
+    font-size: var(--fs-label);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .ways__note {
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+    font-size: var(--fs-small);
+  }
+
+  .offer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border: 1.5px solid var(--color-primary-tint-strong);
+    border-radius: var(--radius-card);
+  }
+
+  .offer__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 60ch;
+  }
+
+  .offer__label {
+    color: var(--color-primary);
+    font-size: var(--fs-small);
+    font-weight: 600;
+  }
+
+  .offer__title {
+    font-size: var(--fs-h3);
+    font-weight: 650;
+  }
+
+  .offer__text {
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 1024px) {
+    .ways__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .way {
+      padding: var(--space-4);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .offer {
+      padding: var(--space-4);
+    }
+
+    .offer :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>

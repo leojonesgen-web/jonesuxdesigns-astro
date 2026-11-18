@@ -1,0 +1,50 @@
+---
+/** More Work: additional evidence after the light conversion point. */
+import SectionIntro from '../SectionIntro.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { broaderProjects } from '../../data/projects';
+---
+
+<section class="section more-work" id="more-work" aria-labelledby="more-work-title">
+  <div class="container">
+    <SectionIntro title="More work" id="more-work-title">
+      <p>App, landing-page and product UI design.</p>
+    </SectionIntro>
+    <ul class="more-work__grid">
+      {
+        broaderProjects.map((project) => (
+          <li>
+            <ProjectCard project={project} size="compact" />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Follows the light conversion point, which carries its own bottom spacing. */
+  .more-work {
+    padding-top: 0;
+  }
+
+  .more-work__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+
+  @media (max-width: 1024px) {
+    .more-work__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 640px) {
+    .more-work__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

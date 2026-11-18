@@ -1,0 +1,11 @@
+---
+/** Preview of About proposal B in the full homepage context. Not linked from the site; noindex. */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomePage from '../../components/home/HomePage.astro';
+import PreviewBanner from '../../components/preview/PreviewBanner.astro';
+---
+
+<BaseLayout title="Preview: About version B" noindex>
+  <PreviewBanner current="b" slot="banner" />
+  <HomePage about="b" />
+</BaseLayout>

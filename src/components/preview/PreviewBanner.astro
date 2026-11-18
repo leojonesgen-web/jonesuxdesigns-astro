@@ -1,0 +1,46 @@
+---
+/** Preview-only banner for comparing About proposals. Not used on the real homepage. */
+interface Props {
+  current: 'a' | 'b';
+}
+const { current } = Astro.props;
+---
+
+<div class="preview-banner">
+  <span>Preview: About / Why work with me</span>
+  <nav aria-label="About proposals">
+    <a href="/preview/about-a/#about" aria-current={current === 'a' ? 'page' : undefined}>Version A</a>
+    <a href="/preview/about-b/#about" aria-current={current === 'b' ? 'page' : undefined}>Version B</a>
+    <a href="/">Current homepage</a>
+  </nav>
+</div>
+
+<style>
+  .preview-banner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px 20px;
+    padding: 8px 16px;
+    background: var(--color-ink);
+    color: #fff;
+    font-size: var(--fs-small);
+  }
+
+  nav {
+    display: flex;
+    gap: 6px;
+  }
+
+  a {
+    padding: 4px 12px;
+    border: 1px solid rgb(255 255 255 / 0.3);
+    border-radius: var(--radius-pill);
+  }
+
+  a[aria-current='page'] {
+    background: #fff;
+    color: var(--color-ink);
+  }
+</style>

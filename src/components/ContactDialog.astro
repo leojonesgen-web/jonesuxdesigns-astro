@@ -11,21 +11,21 @@ import Icon from './Icon.astro';
 <dialog class="contact-dialog" aria-labelledby="contact-dialog-title" aria-describedby="contact-dialog-desc">
   <div class="contact-dialog__panel">
     <div class="contact-dialog__head">
-      <h2 id="contact-dialog-title">Interested in this package?</h2>
+      <h2 id="contact-dialog-title">Get in touch</h2>
       <button class="contact-dialog__close" type="button" aria-label="Close" data-dialog-close>
         <Icon name="close" size={20} />
       </button>
     </div>
     <p id="contact-dialog-desc" class="contact-dialog__desc">
       Choose how you’d like to get in touch. This only starts a conversation. It doesn’t book or
-      commit either of us to a package or price.
+      commit either of us to anything.
     </p>
     <p class="contact-dialog__message">
       <span class="contact-dialog__message-label">Your message will start with</span>
-      <span data-contact-message>“I’m interested in discussing this package.”</span>
+      <span data-contact-message>“Hi Leonard, I’d like to talk about my product.”</span>
     </p>
     <ContactOptions />
-    <p class="contact-dialog__note">On LinkedIn, mention which package you’re interested in.</p>
+    <p class="contact-dialog__note">On LinkedIn, mention which option you’re interested in.</p>
   </div>
 </dialog>
 

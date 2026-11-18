@@ -5,14 +5,15 @@ interface Props {
   title: string;
   id: string;
   level?: 'h2' | 'h3';
+  align?: 'start' | 'center';
   class?: string;
 }
 
-const { eyebrow, title, id, level = 'h2', class: className } = Astro.props;
+const { eyebrow, title, id, level = 'h2', align = 'start', class: className } = Astro.props;
 const Heading = level;
 ---
 
-<div class:list={['section-intro', className]}>
+<div class:list={['section-intro', `section-intro--${align}`, className]}>
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
   <Heading class:list={['section-intro__title', `section-intro__title--${level}`]} id={id}>{title}</Heading>
   {Astro.slots.has('default') && <div class="section-intro__lead"><slot /></div>}
@@ -24,6 +25,17 @@ const Heading = level;
     flex-direction: column;
     gap: var(--space-2);
     max-width: 720px;
+  }
+
+  .section-intro--center {
+    align-items: center;
+    max-width: 860px;
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section-intro--center .section-intro__lead {
+    max-width: 640px;
   }
 
   .section-intro__title--h2 {
