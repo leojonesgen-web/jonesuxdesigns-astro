@@ -28,6 +28,9 @@ const drivePointGallery = slides(
 const nestoryGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/nestory/*.png', { eager: true }),
 );
+const primeRegentGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/prime-regent/*.png', { eager: true }),
+);
 const pawcareGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
 );
@@ -114,6 +117,7 @@ export const projects: Project[] = [
     image: primeRegent,
     imageAlt: 'Prime Regent landing page shown on a laptop screen',
     group: 'broader',
+    gallery: primeRegentGallery,
   },
   {
     slug: 'stellar-time',
