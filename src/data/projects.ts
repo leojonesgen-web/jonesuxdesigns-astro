@@ -8,10 +8,17 @@ import primeRegent from '../assets/projects/prime-regent.png';
 import stellarTime from '../assets/projects/stellar-time.png';
 import nestStory from '../assets/projects/nest-story.png';
 
-/** Case-study presentation images, in display order (1440×1024 each). */
-const tripwiseGallery = Object.values(
+/** Case-study presentation images (1440×1024 each), ordered by file name 01, 02, … */
+const slides = (modules: Record<string, { default: ImageMetadata }>) =>
+  Object.keys(modules)
+    .sort()
+    .map((k) => modules[k].default);
+const tripwiseGallery = slides(
   import.meta.glob<{ default: ImageMetadata }>('../assets/projects/tripwise/*.png', { eager: true }),
-).map((m) => m.default);
+);
+const pawcareGallery = slides(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/projects/pawcare/*.png', { eager: true }),
+);
 
 export interface Project {
   /** URL segment: /projects/<slug>/ */
@@ -60,6 +67,7 @@ export const projects: Project[] = [
     image: pawcare,
     imageAlt: 'PawCare veterinary booking app screens on three phones',
     group: 'selected',
+    gallery: pawcareGallery,
   },
   {
     slug: 'filelens',
