@@ -66,9 +66,21 @@ import { strengths } from '../../data/content';
     margin-top: var(--space-6);
   }
 
+  /* Desktop: soft blue panel. The cut-out photo spans the full panel width, so the shape
+     touches the panel's left, right and bottom edges; only the top has breathing room. */
+  .about-split__layout {
+    align-items: stretch;
+  }
+
   .about-split__photo {
+    display: flex;
+    align-items: flex-end;
     width: 100%;
     max-width: 460px;
+    padding-top: var(--space-6);
+    overflow: hidden;
+    background: linear-gradient(180deg, #eef4ff 0%, #dce8fd 100%);
+    border-radius: 24px;
   }
 
   /* Cut-out portrait: transparent background, sits directly on the section */
@@ -79,6 +91,7 @@ import { strengths } from '../../data/content';
   }
 
   .about-split__content {
+    align-self: center;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -157,9 +170,9 @@ import { strengths } from '../../data/content';
       gap: var(--space-6);
     }
 
+    /* Mobile/tablet: no photo; the text follows the intro directly */
     .about-split__photo {
-      width: min(100%, 400px);
-      margin-inline: auto;
+      display: none;
     }
 
     .about-split__content {
