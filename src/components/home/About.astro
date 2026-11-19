@@ -151,6 +151,13 @@ import { strengths } from '../../data/content';
     line-height: 1.5;
   }
 
+  /* PREVIEW ONLY (branch preview-about-no-photo): photo hidden on mobile/tablet */
+  @media (max-width: 1024px) {
+    .about-split__photo {
+      display: none;
+    }
+  }
+
   @media (max-width: 1024px) {
     .about-split__layout {
       grid-template-columns: 1fr;
