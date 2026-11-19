@@ -1,11 +1,12 @@
 ---
 /**
  * About / Why work with me.
- * Centred intro → split: photo placeholder (left) | secondary heading, short paragraph and four
+ * Centred intro → split: portrait photo (left) | secondary heading, short paragraph and four
  * strengths as open rows (icon + title + one line) separated by hairline dividers (right).
  */
 import SectionIntro from '../SectionIntro.astro';
-import PhotoPlaceholder from '../PhotoPlaceholder.astro';
+import { Image } from 'astro:assets';
+import portrait from '../../assets/leonard-portrait.png';
 import Icon from '../Icon.astro';
 import { strengths } from '../../data/content';
 ---
@@ -16,7 +17,15 @@ import { strengths } from '../../data/content';
       <p>I’m Leonard, a Product, UX and UI designer focused on early-stage consumer (B2C) AI products.</p>
     </SectionIntro>
     <div class="about-split__layout">
-      <div class="about-split__photo"><PhotoPlaceholder /></div>
+      <div class="about-split__photo">
+        <Image
+          class="about-split__portrait"
+          src={portrait}
+          alt="Portrait of Leonard Jones"
+          widths={[400, 600, 920, 1258]}
+          sizes="(max-width: 1024px) min(100vw, 400px), 460px"
+        />
+      </div>
       <div class="about-split__content">
         <h3 class="about-split__heading">Making complex AI products understandable</h3>
         <p class="about-split__text">
@@ -60,6 +69,13 @@ import { strengths } from '../../data/content';
   .about-split__photo {
     width: 100%;
     max-width: 460px;
+  }
+
+  /* Cut-out portrait: transparent background, sits directly on the section */
+  .about-split__portrait {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .about-split__content {
