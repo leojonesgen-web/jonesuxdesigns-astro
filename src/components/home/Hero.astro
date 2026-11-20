@@ -250,6 +250,66 @@ import { contactHref } from '../../data/site';
     .hero__chip--3 { right: 40%; }
   }
 
+  /* ---------- Hero motion (page load) ---------- */
+  :global(.motion) .hero__copy > * {
+    animation: fade-up 700ms var(--ease) both;
+  }
+
+  :global(.motion) .hero__copy > :nth-child(2) { animation-delay: 80ms; }
+  :global(.motion) .hero__copy > :nth-child(3) { animation-delay: 160ms; }
+  :global(.motion) .hero__copy > :nth-child(4) { animation-delay: 240ms; }
+
+  :global(.motion) .hero__word {
+    animation: fade-in 1600ms ease both 200ms;
+  }
+
+  /* Shapes grow in, then drift very slowly */
+  :global(.motion) .hero__art {
+    animation:
+      hero-shapes-in 1100ms var(--ease) both 150ms,
+      hero-drift 16s ease-in-out 1.3s infinite alternate;
+  }
+
+  :global(.motion) .hero__photo {
+    animation: hero-photo-in 900ms var(--ease) both 300ms;
+  }
+
+  /* Chips pop in one by one, then float gently */
+  :global(.motion) .hero__chip {
+    animation:
+      hero-chip-in 600ms var(--ease) both,
+      hero-float 6s ease-in-out infinite alternate;
+  }
+
+  :global(.motion) .hero__chip--1 { animation-delay: 750ms, 1350ms; }
+  :global(.motion) .hero__chip--2 { animation-delay: 900ms, 2100ms; }
+  :global(.motion) .hero__chip--3 { animation-delay: 1050ms, 2800ms; }
+
+  @keyframes hero-shapes-in {
+    from { opacity: 0; scale: 0.9; }
+    to { opacity: 1; scale: 1; }
+  }
+
+  @keyframes hero-drift {
+    from { rotate: 0deg; }
+    to { rotate: 2deg; }
+  }
+
+  @keyframes hero-photo-in {
+    from { opacity: 0; translate: 0 28px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+
+  @keyframes hero-chip-in {
+    from { opacity: 0; scale: 0.85; }
+    to { opacity: 1; scale: 1; }
+  }
+
+  @keyframes hero-float {
+    from { translate: 0 0; }
+    to { translate: 0 -8px; }
+  }
+
   @media (max-width: 900px) {
     .hero {
       padding-block: var(--space-7) var(--space-9);

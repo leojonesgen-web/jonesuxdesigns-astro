@@ -33,6 +33,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:url" content={canonical} />
     <meta name="twitter:card" content="summary" />
     <meta name="theme-color" content="#f7f9fc" />
+    <script is:inline>
+      // Motion is opt-in: only when JS runs and the visitor hasn't asked for reduced motion.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
+    </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
@@ -43,6 +47,33 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <Footer />
     <ContactDialog />
     <Assistant />
+    <script>
+      // Scroll reveal: elements fade up gently the first time they enter the viewport.
+      const root = document.documentElement;
+      if (root.classList.contains('motion') && 'IntersectionObserver' in window) {
+        const targets = document.querySelectorAll<HTMLElement>(
+          '.section-intro, .problem-card, .project-card, .process__steps, .about-split__photo, .about-split__heading, .about-split__text, .strengths__item, .way, .offer, .ways__note, .faq__side, .faq__list, .light-cta__inner, .final-contact__inner, .gallery__image',
+        );
+        // Stagger siblings that sit in the same grid/list.
+        const counts = new Map<Element, number>();
+        targets.forEach((el) => {
+          el.classList.add('reveal');
+          const parent = el.parentElement?.closest('ul, ol, .about-split__content, .faq__inner') ?? el.parentElement!;
+          const n = counts.get(parent) ?? 0;
+          counts.set(parent, n + 1);
+          el.style.setProperty('--reveal-delay', `${Math.min(n, 5) * 80}ms`);
+        });
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('is-revealed');
+            io.unobserve(e.target);
+          }),
+          { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
+        );
+        targets.forEach((el) => io.observe(el));
+      }
+    </script>
   </body>
 </html>
 

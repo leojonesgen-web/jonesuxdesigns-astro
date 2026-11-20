@@ -194,6 +194,11 @@ import { processSteps } from '../../data/content';
     box-shadow: var(--shadow-card);
   }
 
+  /* Switching steps: the new panel fades in */
+  :global(.motion) .is-enhanced .process__panel[data-open='true'] {
+    animation: fade-in 350ms var(--ease);
+  }
+
   .is-enhanced .process__panel[data-open='false'] {
     display: none;
   }

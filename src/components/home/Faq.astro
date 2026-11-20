@@ -41,7 +41,7 @@ import { contactHref } from '../../data/site';
                 </svg>
               </span>
             </summary>
-            <p class="faq__answer">{item.a}</p>
+            <div class="faq__panel"><p class="faq__answer">{item.a}</p></div>
           </details>
         ))
       }
@@ -50,6 +50,34 @@ import { contactHref } from '../../data/site';
 </section>
 
 <script>
+  // Smooth accordion: animate the panel height instead of snapping open/closed.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const DURATION = 260;
+  const EASE = 'cubic-bezier(0.2, 0, 0, 1)';
+  document.querySelectorAll<HTMLDetailsElement>('.faq__item').forEach((item) => {
+    const summary = item.querySelector('summary')!;
+    const panel = item.querySelector<HTMLElement>('.faq__panel')!;
+    let anim: Animation | null = null;
+    summary.addEventListener('click', (e) => {
+      if (reduce) return;
+      e.preventDefault();
+      const opening = !item.open || item.classList.contains('is-closing');
+      // A closed <details> still reports its content's natural height, so start from 0 then.
+      const from = item.open ? panel.getBoundingClientRect().height : 0;
+      anim?.cancel();
+      if (opening) {
+        item.classList.remove('is-closing');
+        item.open = true;
+        const to = panel.scrollHeight;
+        anim = panel.animate({ height: [`${from}px`, `${to}px`], opacity: [from ? 1 : 0, 1] }, { duration: DURATION, easing: EASE });
+      } else {
+        item.classList.add('is-closing');
+        anim = panel.animate({ height: [`${from}px`, '0px'], opacity: [1, 0] }, { duration: DURATION, easing: EASE });
+        anim.onfinish = () => { item.open = false; item.classList.remove('is-closing'); };
+      }
+    });
+  });
+
   // "Ask the assistant" opens the floating portfolio assistant.
   document.querySelectorAll<HTMLButtonElement>('[data-open-assistant]').forEach((btn) =>
     btn.addEventListener('click', () => {
@@ -186,13 +214,38 @@ import { contactHref } from '../../data/site';
     transition: background-color var(--duration-base) var(--ease), color var(--duration-base) var(--ease);
   }
 
-  .faq__item[open] .faq__toggle {
+  .faq__item[open]:not(.is-closing) .faq__toggle {
     background: var(--color-primary);
     color: #fff;
   }
 
-  .faq__item[open] .faq__toggle-v {
-    display: none;
+  .faq__toggle svg {
+    transition: transform 260ms var(--ease);
+  }
+
+  .faq__toggle-v {
+    transform-origin: center;
+    transform-box: fill-box;
+    transition: transform 260ms var(--ease), opacity 260ms var(--ease);
+  }
+
+  /* + turns into − (the vertical stroke folds away), also while closing it folds back */
+  .faq__item[open]:not(.is-closing) .faq__toggle-v {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+
+  .faq__item[open]:not(.is-closing) .faq__toggle svg {
+    transform: rotate(180deg);
+  }
+
+  .faq__item.is-closing .faq__toggle {
+    background: var(--color-primary-tint);
+    color: var(--color-primary);
+  }
+
+  .faq__panel {
+    overflow: hidden;
   }
 
   .faq__answer {
