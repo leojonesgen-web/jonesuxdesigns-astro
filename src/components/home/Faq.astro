@@ -1,26 +1,45 @@
 ---
-/** FAQ: quieter accordion (native <details>, keyboard accessible without JS). */
-import SectionIntro from '../SectionIntro.astro';
-import Icon from '../Icon.astro';
+/**
+ * FAQ: split layout.
+ *  - Left (vertically centred against the list): tag, heading, short lead and a soft blue
+ *    "Something not covered here?" card with Contact + Ask the assistant.
+ *  - Right: numbered accordion in one white panel (native <details>, works without JS).
+ */
+import Button from '../Button.astro';
 import { faqs } from '../../data/content';
 import { contactHref } from '../../data/site';
 ---
 
 <section class="section faq" id="faq" aria-labelledby="faq-title">
   <div class="container faq__inner">
-    <SectionIntro title="Questions founders ask" id="faq-title">
-      <p>
-        Something not covered here? Ask the portfolio assistant, or <a class="text-link" href={contactHref}>contact Leonard</a> directly.
-      </p>
-    </SectionIntro>
+    <div class="faq__side">
+      <p class="eyebrow">FAQ</p>
+      <h2 class="faq__title" id="faq-title">Questions<br />founders ask</h2>
+      <p class="faq__lead">The short answers to what founders usually want to know before getting in touch.</p>
+
+      <div class="faq__help">
+        <h3 class="faq__help-title">Something not covered here?</h3>
+        <p class="faq__help-text">Ask the portfolio assistant, or contact Leonard directly.</p>
+        <div class="faq__help-actions">
+          <Button href={contactHref}>Contact Leonard</Button>
+          <Button variant="secondary" type="button" data-open-assistant>Ask the assistant</Button>
+        </div>
+      </div>
+    </div>
 
     <div class="faq__list">
       {
-        faqs.map((item) => (
-          <details class="faq__item">
+        faqs.map((item, i) => (
+          <details class="faq__item" open={i === 0}>
             <summary>
-              <span>{item.q}</span>
-              <Icon name="chevron-down" size={20} class="faq__chevron" />
+              <span class="faq__num">{String(i + 1).padStart(2, '0')}</span>
+              <span class="faq__q">{item.q}</span>
+              <span class="faq__toggle" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <path d="M5 12h14" />
+                  <path class="faq__toggle-v" d="M12 5v14" />
+                </svg>
+              </span>
             </summary>
             <p class="faq__answer">{item.a}</p>
           </details>
@@ -30,6 +49,17 @@ import { contactHref } from '../../data/site';
   </div>
 </section>
 
+<script>
+  // "Ask the assistant" opens the floating portfolio assistant.
+  document.querySelectorAll<HTMLButtonElement>('[data-open-assistant]').forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const toggle = document.querySelector<HTMLButtonElement>('[data-assistant] .assistant__trigger, [data-assistant] [data-assistant-toggle]');
+      const root = document.querySelector('[data-assistant]');
+      if (toggle && !root?.classList.contains('is-open')) toggle.click();
+    }),
+  );
+</script>
+
 <style>
   /* Quieter section directly after More Work on the same background. */
   .faq {
@@ -38,25 +68,73 @@ import { contactHref } from '../../data/site';
 
   .faq__inner {
     display: grid;
-    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-    gap: var(--space-7);
-    align-items: start;
+    grid-template-columns: minmax(0, 400px) minmax(0, 1fr);
+    gap: var(--space-8);
+    align-items: center;
   }
 
+  .faq__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+
+  .faq__title {
+    font-size: var(--fs-h2);
+    font-weight: 700;
+  }
+
+  .faq__lead {
+    color: var(--color-text-muted);
+    font-size: var(--fs-body-lg);
+  }
+
+  .faq__help {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    width: 100%;
+    margin-top: var(--space-3);
+    padding: var(--space-5);
+    background: linear-gradient(160deg, #eef4ff, #dce8fd);
+    border-radius: 20px;
+  }
+
+  .faq__help-title {
+    font-size: 1.25rem;
+    font-weight: 650;
+  }
+
+  .faq__help-text {
+    color: var(--color-text-muted);
+  }
+
+  .faq__help-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  /* Numbered accordion in one white panel */
   .faq__list {
-    border-top: 1px solid var(--color-border);
+    padding: 8px var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-shadow: var(--shadow-card);
   }
 
-  .faq__item {
-    border-bottom: 1px solid var(--color-border);
+  .faq__item + .faq__item {
+    border-top: 1px solid var(--color-border);
   }
 
   .faq__item summary {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--space-3);
-    min-height: 64px;
+    gap: 18px;
+    min-height: 78px;
     padding-block: var(--space-3);
     color: var(--color-ink);
     font-size: 1.0625rem;
@@ -64,29 +142,54 @@ import { contactHref } from '../../data/site';
     list-style: none;
     cursor: pointer;
     border-radius: 4px;
-    transition: color var(--duration-base) var(--ease);
   }
 
   .faq__item summary::-webkit-details-marker {
     display: none;
   }
 
-  .faq__item summary:hover {
+  .faq__num {
+    width: 22px;
+    flex-shrink: 0;
+    color: var(--color-steel);
+    font-size: var(--fs-small);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .faq__q {
+    flex: 1;
+    transition: color var(--duration-base) var(--ease);
+  }
+
+  .faq__item summary:hover .faq__q {
     color: var(--color-primary);
   }
 
-  .faq__item :global(.faq__chevron) {
+  .faq__toggle {
+    display: inline-flex;
     flex-shrink: 0;
-    color: var(--color-text-muted);
-    transition: transform var(--duration-base) var(--ease);
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    background: var(--color-primary-tint);
+    border-radius: 50%;
+    color: var(--color-primary);
+    transition: background-color var(--duration-base) var(--ease), color var(--duration-base) var(--ease);
   }
 
-  .faq__item[open] :global(.faq__chevron) {
-    transform: rotate(180deg);
+  .faq__item[open] .faq__toggle {
+    background: var(--color-primary);
+    color: #fff;
+  }
+
+  .faq__item[open] .faq__toggle-v {
+    display: none;
   }
 
   .faq__answer {
     max-width: 62ch;
+    margin: -6px 0 0 40px;
     padding-bottom: var(--space-4);
     color: var(--color-text-muted);
   }
@@ -95,6 +198,36 @@ import { contactHref } from '../../data/site';
     .faq__inner {
       grid-template-columns: 1fr;
       gap: var(--space-5);
+    }
+
+    /* Stacked: centred tag, title, lead and help card */
+    .faq__side {
+      align-items: center;
+      text-align: center;
+    }
+
+    .faq__help {
+      align-items: center;
+    }
+
+    /* Option A: the two CTAs stacked, full width */
+    .faq__help-actions {
+      flex-direction: column;
+      align-self: stretch;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .faq__list {
+      padding: 4px var(--space-3);
+    }
+
+    .faq__item summary {
+      gap: 12px;
+    }
+
+    .faq__answer {
+      margin-left: 34px;
     }
   }
 </style>
