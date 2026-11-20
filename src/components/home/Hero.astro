@@ -269,13 +269,12 @@ import { contactHref } from '../../data/site';
       display: none;
     }
 
-    /* The background word scales down and sits low, behind the buttons */
+    /* The background word scales down and sits behind the headline */
     .hero__word {
-      top: auto;
-      bottom: 0;
+      top: calc(156px - 6.6vw); /* centres the word on the headline from phone to tablet widths */
       font-size: 30vw;
       color: rgb(31 95 191 / 0.06);
-      transform: translate(-50%, 8%);
+      transform: translateX(-50%);
     }
   }
 
