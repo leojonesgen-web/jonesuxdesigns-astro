@@ -110,11 +110,19 @@ import { contactHref } from '../../data/site';
     color: var(--color-text-muted);
   }
 
+  /* Desktop: the two CTAs side by side, sharing the card width */
   .faq__help-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    gap: 8px;
+    align-self: stretch;
     margin-top: 6px;
+  }
+
+  .faq__help-actions :global(.btn) {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 12px;
+    white-space: nowrap;
   }
 
   /* Numbered accordion in one white panel */
