@@ -210,10 +210,23 @@ import { contactHref } from '../../data/site';
       align-items: center;
     }
 
-    /* Option A: the two CTAs stacked, full width */
+    /* Option B: the two CTAs side by side, slightly more compact */
+    .faq__help {
+      padding: 28px 20px;
+    }
+
     .faq__help-actions {
-      flex-direction: column;
+      flex-wrap: nowrap;
       align-self: stretch;
+      gap: 8px;
+    }
+
+    .faq__help-actions :global(.btn) {
+      flex: 1 1 0;
+      min-width: 0;
+      padding-inline: 12px;
+      font-size: 0.9375rem;
+      white-space: nowrap;
     }
   }
 
