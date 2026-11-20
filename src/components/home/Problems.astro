@@ -53,21 +53,6 @@ import { problems } from '../../data/content';
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
-    transition: border-color 250ms var(--ease), box-shadow 250ms var(--ease);
-  }
-
-  .problem-card:hover {
-    border-color: var(--color-primary-tint-strong);
-    box-shadow: 0 14px 34px rgb(31 95 191 / 0.1);
-  }
-
-  /* The illustration nudges up slightly on hover */
-  .problem-card__media :global(svg) {
-    transition: translate 350ms var(--ease);
-  }
-
-  .problem-card:hover .problem-card__media :global(svg) {
-    translate: 0 -4px;
   }
 
   .problem-card__media {
