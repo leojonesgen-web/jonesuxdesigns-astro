@@ -13,7 +13,7 @@ interface Props {
 }
 
 const { project, size = 'large' } = Astro.props;
-const Heading = size === 'large' ? 'h3' : 'h4';
+const Heading = 'h3'; // Both card sizes sit directly under an h2 section heading.
 ---
 
 <article class:list={['project-card', `project-card--${size}`]}>

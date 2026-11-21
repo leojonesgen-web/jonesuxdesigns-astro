@@ -1,8 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import HomePage from '../components/home/HomePage.astro';
+import { homeSchema } from '../data/schema';
+import { getImage } from 'astro:assets';
+import portrait from '../assets/leonard-portrait.png';
+
+// Leonard's portrait (the About photo) as the Person image in the structured data.
+const portraitImage = await getImage({ src: portrait, width: 800, format: 'png' });
+const portraitUrl = new URL(portraitImage.src, Astro.site).href;
 ---
 
-<BaseLayout>
+<BaseLayout jsonLd={homeSchema(portraitUrl)}>
   <HomePage />
 </BaseLayout>

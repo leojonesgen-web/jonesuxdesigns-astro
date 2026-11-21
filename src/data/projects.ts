@@ -52,8 +52,8 @@ export interface Project {
   group: 'selected' | 'broader';
   /** Presentation images shown full width on the project page, in order. */
   gallery?: ImageMetadata[];
-  /** Optional 1px stroke colour around each gallery image. */
-  galleryStroke?: string;
+  /** Adds the 1px #B8C2D0 stroke around each gallery image. */
+  galleryStroke?: boolean;
   /** Language of the project's own text (card + page) when it isn't English, e.g. 'de'. */
   lang?: 'de';
 }
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     imageAlt: 'PawCare veterinary booking app screens on three phones',
     group: 'selected',
     gallery: pawcareGallery,
-    galleryStroke: '#B8C2D0',
+    galleryStroke: true,
   },
   {
     slug: 'filelens',
@@ -113,7 +113,7 @@ export const projects: Project[] = [
     imageAlt: 'Drive Point app screen on a phone',
     group: 'broader',
     gallery: drivePointGallery,
-    galleryStroke: '#B8C2D0',
+    galleryStroke: true,
   },
   {
     slug: 'prime-ragent',

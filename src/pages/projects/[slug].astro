@@ -4,11 +4,12 @@
  * V1 shows only approved information; full case-study content is added later.
  */
 import type { GetStaticPaths } from 'astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import { projects, type Project } from '../../data/projects';
 import { contactHref } from '../../data/site';
+import { projectSchema } from '../../data/schema';
 
 export const getStaticPaths = (() =>
   projects.map((project) => ({ params: { slug: project.slug }, props: { project } }))) satisfies GetStaticPaths;
@@ -23,9 +24,22 @@ const de = project.lang === 'de';
 const labels = de
   ? { back: '← Zurück zum Portfolio', ask: 'Fragen zu diesem Projekt' }
   : { back: '← Back to portfolio', ask: 'Ask about this project' };
+
+// Social preview + structured data use the project's cover image as a 1200px-wide JPEG.
+const shareImage = await getImage({ src: project.image, width: 1200, format: 'jpg' });
+const shareImageUrl = new URL(shareImage.src, Astro.site).href;
 ---
 
-<BaseLayout title={project.title} description={`${project.title}: ${summary}`}>
+<BaseLayout
+  title={project.title}
+  description={`${project.title}: ${summary}`}
+  image={shareImage.src}
+  imageWidth={Number(shareImage.attributes.width)}
+  imageHeight={Number(shareImage.attributes.height)}
+  imageAlt={project.imageAlt}
+  locale={de ? 'de_DE' : 'en_US'}
+  jsonLd={projectSchema(project, summary, shareImageUrl)}
+>
   <article class="section project">
     <div class="container project__inner">
       <a class="text-link project__back" href="/#work" lang={project.lang}>{labels.back}</a>
@@ -49,7 +63,7 @@ const labels = de
 
     {
       project.gallery && (
-        <div class="container"><div class:list={['gallery', { 'gallery--stroke': project.galleryStroke }]} style={project.galleryStroke ? `--gallery-stroke: ${project.galleryStroke}` : undefined}>
+        <div class="container"><div class:list={['gallery', { 'gallery--stroke': project.galleryStroke }]}>
           {project.gallery.map((img, i) => (
             <Image
               class="gallery__image"
@@ -89,7 +103,7 @@ const labels = de
 
   /* Optional per-project stroke: 1px, fully opaque */
   .gallery--stroke .gallery__image {
-    border: 1px solid var(--gallery-stroke);
+    border: 1px solid #b8c2d0;
   }
 
   .project__foot {

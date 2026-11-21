@@ -6,15 +6,38 @@ import Footer from '../components/Footer.astro';
 import ContactDialog from '../components/ContactDialog.astro';
 import Assistant from '../components/Assistant.astro';
 import { site } from '../data/site';
+import { motionFlagScript } from '../scripts/motion-flag.mjs';
 
 interface Props {
   title?: string;
   description?: string;
+  /** Absolute or root-relative URL of the social preview image (1200 × 630 recommended). */
+  image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  /** Keeps utility pages (e.g. 404) out of search results. */
+  noindex?: boolean;
+  /** Open Graph locale of the page's description, e.g. 'de_DE'. */
+  locale?: string;
+  /** Structured data for this page, rendered as JSON-LD. */
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description = site.description } = Astro.props;
+const {
+  title,
+  description = site.description,
+  image = '/og-image.png',
+  imageAlt = `${site.name}: ${site.ownerFullName}, product designer for B2C AI products`,
+  imageWidth = 1200,
+  imageHeight = 630,
+  noindex = false,
+  locale = 'en_US',
+  jsonLd,
+} = Astro.props;
 const pageTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.role}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -24,6 +47,8 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={site.ownerFullName} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
@@ -31,14 +56,18 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale" content={locale} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
     <meta name="theme-color" content="#f7f9fc" />
-    <script is:inline>
-      // Motion is opt-in: only when JS runs and the visitor hasn't asked for reduced motion.
-      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('motion');
-    </script>
   </head>
   <body>
+    {/* First thing in <body> (after the CSP meta) so it runs before anything paints. */}
+    <script is:inline set:html={motionFlagScript} />
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
     <main id="main">

@@ -1,6 +1,7 @@
 export const site = {
   name: 'Jones UX Designs',
   owner: 'Leonard',
+  ownerFullName: 'Leonard Jones',
   role: 'Product Designer for Early-Stage B2C AI Products',
   description:
     'I help early-stage consumer AI startups turn complex ideas and AI-powered features into clear, intuitive products people can understand and use.',
