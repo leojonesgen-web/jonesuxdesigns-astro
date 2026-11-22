@@ -66,7 +66,7 @@ const imageUrl = new URL(image, Astro.site);
     <meta name="theme-color" content="#f7f9fc" />
   </head>
   <body>
-    {/* First thing in <body> (after the CSP meta) so it runs before anything paints. */}
+    {/* First thing in <body> so it runs before anything paints. Allowed by its hash in the CSP (vercel.json). */}
     <script is:inline set:html={motionFlagScript} />
     <a class="skip-link" href="#main">Skip to content</a>
     <Header />
