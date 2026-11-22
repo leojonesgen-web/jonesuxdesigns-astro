@@ -19,7 +19,8 @@
   --color-primary-strong: #174a96; /* hover / pressed */
   --color-primary-tint: #e8f0fb;   /* subtle tinted surfaces */
   --color-primary-tint-strong: #d3e2f6;
-  --color-steel: #4682b4;          /* Steel Blue: accents, rules, numbers */
+  --color-steel: #4682b4;          /* Steel Blue: illustration accents and rules (graphics only) */
+  --color-steel-text: #4077a5;     /* Steel Blue for small text (step/question numbers): 4.8:1 on white, meets WCAG AA */
   --color-deep: #1b3a5c;           /* Blue Jay, deepened: dark sections */
   --color-on-deep: #ffffff;
   --color-on-deep-muted: #c5d4e6;
